@@ -14,7 +14,6 @@ Supported boards:
 Ideas from:
 * http://code.google.com/p/peg-solitaire/source/browse/src/com/googlecode/pegsolitaire
 * http://en.wikipedia.org/wiki/Peg_solitaire#Studies_on_peg_solitaire
-* http://home.comcast.net/~gibell/pegsolitaire/EnglishResults.html
 * http://www.durangobill.com/Peg33.html
 * http://www.gibell.net/pegsolitaire/English/index.html
 
