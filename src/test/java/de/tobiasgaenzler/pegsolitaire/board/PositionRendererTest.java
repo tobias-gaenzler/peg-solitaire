@@ -1,6 +1,6 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
-
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,9 +15,9 @@ public class PositionRendererTest {
 
     @Test
     public void renderToStringShouldRenderPositionOn4x4BoardCorrectly() {
-        String boardPresentation = testee.renderToString(0B1001_1110_0111_1010L, new QuadraticBoard(4));
+        String boardPresentation = testee.renderToString(0B1001_1110_0111_1010L, new QuadraticBoardSizeFour(new BitManipulator()));
         assertThat(boardPresentation).isEqualTo("""
-                
+                                
                 ⚫ ⚪ ⚪ ⚫\s
                 ⚫ ⚫ ⚫ ⚪\s
                 ⚪ ⚫ ⚫ ⚫\s
@@ -27,7 +27,7 @@ public class PositionRendererTest {
 
     @Test
     public void renderToMatrixShouldRenderPositionOn4x4BoardCorrectlyForPresentation() {
-        List<List<PositionContent>> matrix = testee.renderToMatrix(0B1001_1110_0111_1010L, new QuadraticBoard(4));
+        List<List<PositionContent>> matrix = testee.renderToMatrix(0B1001_1110_0111_1010L, new QuadraticBoardSizeFour(new BitManipulator()));
         assertThat(matrix.get(0).get(0)).isEqualTo(PEG);
         assertThat(matrix.get(0).get(1)).isEqualTo(HOLE);
         assertThat(matrix.get(0).get(2)).isEqualTo(HOLE);

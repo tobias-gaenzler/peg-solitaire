@@ -1,13 +1,14 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class QuadraticBoardTest {
+public class QuadraticBoardSizeFourTest {
 
-    private final Board board = new BoardFactory().createQuadraticBoard(SIZE);
+    private final Board board = new QuadraticBoardSizeFour(new BitManipulator());
     private final static int SIZE = 4;
 
     @Test
@@ -21,7 +22,7 @@ public class QuadraticBoardTest {
         //  check layout and startPosition
         Long layout = 0B1111_1111_1111_1111L;
         assertThat(board.getLayout()).isEqualTo(layout);
-        Long startPosition = 0B1101_1111_1111_1111L;
+        Long startPosition = 0B1110_1011_1111_1111L;
         assertThat(board.getStartPosition()).isEqualTo(startPosition);
     }
 

@@ -80,7 +80,7 @@ public interface Board {
      * @param position Long the position on the board
      * @return the position as string
      */
-    String toString(Long position);
+    String renderPosition(Long position);
 
     List<Move> getMoves();
 
@@ -112,6 +112,9 @@ public interface Board {
         return (number & 1L << index) != 0L;
     }
 
+    /**
+     * Name of the board (used by the {@code BoardFactory}).
+     */
     String getName();
 
     /**

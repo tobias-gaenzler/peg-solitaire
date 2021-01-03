@@ -1,30 +1,36 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Set;
 
 /**
- * An english board implementation of the class Board, which is the most popular layout for the peg solitaire game.
+ * The english board, which is the most popular layout for the peg solitaire game.
  * The english board has a "cross"-like layout on a 7x7 grid.
  * The start position is the layout except the center peg is removed.
  * The end position is the inverse of the start position.
  */
+@Component
 public class EnglishBoard implements Board {
     public static final String NAME = "English Board";
-    private final List<Move> moves = new ArrayList<>();
-    private final Set<Long> connectedMoveMasks = new HashSet<>();
+    private final BoardDataHolder boardDataHolder;
+    private final Integer size = 7;
+
 
     /**
-     * default constructor: assemble possible moves
+     * Default constructor which assembles possible moves.
      */
-    public EnglishBoard() {
-        assembleMoves(moves, connectedMoveMasks);
+    @Autowired
+    public EnglishBoard(BitManipulator bitManipulator) {
+        super();
+        boardDataHolder = new BoardDataHolder(bitManipulator, this);
     }
 
     @Override
-    public String toString(Long position) {
+    public String renderPosition(Long position) {
         StringBuilder positionString = new StringBuilder();
         for (int i = 0; i < getNumberOfHoles(); i++) {
             if (!testBit(getLayout(), i)) {
@@ -44,28 +50,27 @@ public class EnglishBoard implements Board {
 
     @Override
     public Integer getNumberOfHoles() {
-        // 7*7
-        return 49;
+        return size * size;
     }
 
     @Override
     public List<Move> getMoves() {
-        return moves;
+        return boardDataHolder.getMoves();
     }
 
     @Override
     public Set<Long> getConnectedMoveMasks() {
-        return connectedMoveMasks;
+        return boardDataHolder.getConnectedMoveMasks();
     }
 
     @Override
     public Integer getColumns() {
-        return 7;
+        return size;
     }
 
     @Override
     public Integer getRows() {
-        return 7;
+        return size;
     }
 
     @Override
@@ -73,11 +78,35 @@ public class EnglishBoard implements Board {
         return 0B0011100_0011100_1111111_1111111_1111111_0011100_0011100L;
     }
 
+    /**
+     * The start position with a hole in the center:
+     *<pre>
+     *        O O O
+     *        O O O
+     *    O O O O O O O
+     *    O O O * O O O
+     *    O O O O O O O
+     *        O O O
+     *        O O O
+     *</pre>
+     */
     @Override
     public Long getStartPosition() {
         return 0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L;
     }
 
+    /**
+     * The end position with a peg in the center:
+     *<pre>
+     *      * * *
+     *      * * *
+     *  * * * * * * *
+     *  * * * O * * *
+     *  * * * * * * *
+     *      * * *
+     *      * * *
+     * </pre>
+     */
     @Override
     public Long getEndPosition() {
         //for the english board the end position is the inverse of the start position.

@@ -1,27 +1,33 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Component
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+/**
+ * A factory which adheres to the open/close principle (new boards can be added without changing existing code).
+ * Boards are created by using the board name.
+ */
+@Service
 public class BoardFactory {
 
-    /**
-     * @return an english board
-     */
-    public Board createEnglishBoard() {
-        return new EnglishBoard();
+    private final Map<String, Board> boardNameToBoardMap;
+
+    @Autowired
+    private BoardFactory(List<Board> boards) {
+        boardNameToBoardMap = boards.stream().collect(Collectors.toMap(Board::getName, Function.identity()));
     }
 
-    /**
-     * board creation of quadratic boards. Use the boardID "quadratic" and a size to create a quadratic board.
-     *
-     * @param size the size of the quadratic board.
-     * @return a quadratic board if the boardID matches, null otherwise
-     */
-    public Board createQuadraticBoard(Integer size) {
-        if (size == null || size < 3 || size > 6) {
-            return null;
+    public Board getBoard(String name) {
+        Board board = boardNameToBoardMap.get(name);
+        if (board == null) {
+            throw new RuntimeException("Unknown board name: " + name + ". Available boards: " +
+                    String.join(",", boardNameToBoardMap.keySet()));
         }
-        return new QuadraticBoard(size);
+        return board;
     }
 }

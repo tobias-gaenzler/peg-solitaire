@@ -1,6 +1,5 @@
 package de.tobiasgaenzler.pegsolitaire.solver;
 
-
 import de.tobiasgaenzler.pegsolitaire.board.Board;
 
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class Solution {
     public String toString(Board board) {
         StringBuilder solutionString = new StringBuilder();
         positions.forEach(position -> {
-            String positionString = board.toString(position);
+            String positionString = board.renderPosition(position);
             solutionString.append(positionString);
         });
         solutionString.append("\n");

@@ -1,6 +1,7 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
 import de.tobiasgaenzler.pegsolitaire.solver.Solution;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ public class EnglishBoardTest {
 
     @BeforeEach
     public void createBoard() {
-        this.board = new EnglishBoard();
+        this.board = new EnglishBoard(new BitManipulator());
     }
 
     @Test
@@ -73,16 +74,16 @@ public class EnglishBoardTest {
     public void testPositionToString() {
         String positionString =
                 """
-                            O O O_____
-                            O O O_____
-                        O O O O O O O_
-                        O O O * O O O_
-                        O O O O O O O_
-                            O O O_____
-                            O O O_____
+                            O O O    \s
+                            O O O    \s
+                        O O O O O O O\s
+                        O O O * O O O\s
+                        O O O O O O O\s
+                            O O O    \s
+                            O O O    \s
                         
-                        """.replace('_', ' '); // needed since trailing whitespace is removed in text blocks
-        assertEquals(positionString, board.toString(board.getStartPosition()));
+                        """;
+        assertEquals(positionString, board.renderPosition(board.getStartPosition()));
     }
 
     @Test

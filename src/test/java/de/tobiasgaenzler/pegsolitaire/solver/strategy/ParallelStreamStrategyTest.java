@@ -1,8 +1,9 @@
 package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
-import de.tobiasgaenzler.pegsolitaire.board.BoardFactory;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
+import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFour;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class ParallelStreamStrategyTest {
 
     @Test
     public void testParallelStreamStrategyForQuadraticBoard() {
-        Board board = new BoardFactory().createQuadraticBoard(4);
+        Board board = new QuadraticBoardSizeFour(new BitManipulator());
         WinningPositionsStrategy strategy = new ParallelStreamStrategy();
         long startPosition = 0B1110_1011_1111_1111L;
         List<Set<Long>> winningPositions = strategy.solve(board, startPosition);
@@ -42,7 +43,7 @@ public class ParallelStreamStrategyTest {
 
     @Test
     public void testParallelStreamStrategyForEnglishBoard() {
-        Board board = new EnglishBoard();
+        Board board = new EnglishBoard(new BitManipulator());
         WinningPositionsStrategy strategy = new ParallelStreamStrategy();
         Long startPosition = board.getStartPosition();
         List<Set<Long>> winningPositions = strategy.solve(board, startPosition);
