@@ -17,11 +17,11 @@ public class PositionRendererTest {
     public void renderToStringShouldRenderPositionOn4x4BoardCorrectly() {
         String boardPresentation = testee.renderToString(0B1001_1110_0111_1010L, new QuadraticBoardSizeFour(new BitManipulator()));
         assertThat(boardPresentation).isEqualTo("""
-                                
-                ⚫ ⚪ ⚪ ⚫\s
-                ⚫ ⚫ ⚫ ⚪\s
-                ⚪ ⚫ ⚫ ⚫\s
-                ⚫ ⚪ ⚫ ⚪\s
+
+                ⚫ * * ⚫\s
+                ⚫ ⚫ ⚫ *\s
+                * ⚫ ⚫ ⚫\s
+                ⚫ * ⚫ *\s
                 """);
     }
 

@@ -82,7 +82,7 @@ public class PositionRenderer {
         if (positionContent.isPeg()) {
             return "\u26AB";
         } else if (positionContent.isHole()) {
-            return "\u26AA";
+            return "*";
         } else {
             return " ";
         }

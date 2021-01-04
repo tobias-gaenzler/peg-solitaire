@@ -36,7 +36,7 @@ public class EnglishBoard implements Board {
             if (!testBit(getLayout(), i)) {
                 positionString.append("  ");
             } else if (testBit(position, i)) {
-                positionString.append("O ");
+                positionString.append("\u26AB ");
             } else {
                 positionString.append("* ");
             }

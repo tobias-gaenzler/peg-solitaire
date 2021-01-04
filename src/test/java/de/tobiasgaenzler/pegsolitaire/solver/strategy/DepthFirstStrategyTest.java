@@ -17,77 +17,77 @@ public class DepthFirstStrategyTest {
         // prefer visual representation (better documentation and easier to grasp if really a solution).
         String expectedSolution = """
                 
-                ⚫ ⚫ ⚫ ⚪\s
-                ⚫ ⚪ ⚫ ⚫\s
+                ⚫ ⚫ ⚫ *\s
+                ⚫ * ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚫ ⚪ ⚪ ⚫\s
-                ⚫ ⚪ ⚫ ⚫\s
+                ⚫ * * ⚫\s
+                ⚫ * ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚫ ⚪ ⚪ ⚫\s
-                ⚫ ⚫ ⚪ ⚪\s
+                ⚫ * * ⚫\s
+                ⚫ ⚫ * *\s
                 ⚫ ⚫ ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚫ ⚪ ⚪ ⚫\s
-                ⚪ ⚪ ⚫ ⚪\s
+                ⚫ * * ⚫\s
+                * * ⚫ *\s
                 ⚫ ⚫ ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚫ ⚪ ⚫ ⚫\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚫ ⚫ ⚪ ⚫\s
+                ⚫ * ⚫ ⚫\s
+                * * * *\s
+                ⚫ ⚫ * ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚫ ⚫ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚫ ⚫ ⚪ ⚫\s
+                ⚫ ⚫ * *\s
+                * * * *\s
+                ⚫ ⚫ * ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚪ ⚪ ⚫ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚫ ⚫ ⚪ ⚫\s
+                * * ⚫ *\s
+                * * * *\s
+                ⚫ ⚫ * ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚪ ⚪ ⚫ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚫ ⚫\s
+                * * ⚫ *\s
+                * * * *\s
+                * * ⚫ ⚫\s
                 ⚫ ⚫ ⚫ ⚫\s
 
-                ⚪ ⚪ ⚫ ⚪\s
-                ⚪ ⚪ ⚫ ⚪\s
-                ⚪ ⚪ ⚪ ⚫\s
-                ⚫ ⚫ ⚪ ⚫\s
+                * * ⚫ *\s
+                * * ⚫ *\s
+                * * * ⚫\s
+                ⚫ ⚫ * ⚫\s
 
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚫ ⚫\s
-                ⚫ ⚫ ⚪ ⚫\s
+                * * * *\s
+                * * * *\s
+                * * ⚫ ⚫\s
+                ⚫ ⚫ * ⚫\s
 
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚫ ⚪ ⚪\s
-                ⚫ ⚫ ⚪ ⚫\s
+                * * * *\s
+                * * * *\s
+                * ⚫ * *\s
+                ⚫ ⚫ * ⚫\s
 
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚫ ⚪ ⚪\s
-                ⚪ ⚪ ⚫ ⚫\s
+                * * * *\s
+                * * * *\s
+                * ⚫ * *\s
+                * * ⚫ ⚫\s
 
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚫ ⚪ ⚪\s
-                ⚪ ⚫ ⚪ ⚪\s
+                * * * *\s
+                * * * *\s
+                * ⚫ * *\s
+                * ⚫ * *\s
 
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚫ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                ⚪ ⚪ ⚪ ⚪\s
-                
-                """;
+                * * * *\s
+                * ⚫ * *\s
+                * * * *\s
+                * * * *\s
+
+                                """;
         Board board = new QuadraticBoardSizeFour(new BitManipulator());
         SolutionStrategy strategy = new DepthFirstStrategy();
         long startPosition = 0B1110_1011_1111_1111L;
@@ -100,264 +100,264 @@ public class DepthFirstStrategyTest {
     @Test
     public void testDepthFirstStrategyForEnglishBoard() {
         String expectedSolution = """
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O * O O O\s
-                O O O O O O O\s
-                    O O O    \s
-                    O O O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O O * O O O\s
-                    O * O    \s
-                    O O O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O O O * * O\s
-                    O * O    \s
-                    O O O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O O O O * O\s
-                    O * *    \s
-                    O O *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O O O O * O\s
-                    O * *    \s
-                    * * O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O O * * O O\s
-                    O * *    \s
-                    * * O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O O * O * *\s
-                    O * *    \s
-                    * * O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                O O * * O * *\s
-                    * * *    \s
-                    O * O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O O O\s
-                * * O * O * *\s
-                    * * *    \s
-                    O * O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O * O O\s
-                * * O * * * *\s
-                    * * O    \s
-                    O * O    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O * O O\s
-                * * O * O * *\s
-                    * * *    \s
-                    O * *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O O * *\s
-                * * O * O * *\s
-                    * * *    \s
-                    O * *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O O O * * *\s
-                * * O * * * *\s
-                    * * O    \s
-                    O * *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O * O * * *\s
-                * * * * * * *\s
-                    O * O    \s
-                    O * *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                O O * O * * *\s
-                * * O * * * *\s
-                    * * O    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                * * O O * * *\s
-                * * O * * * *\s
-                    * * O    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O O    \s
-                O O O O O O O\s
-                * * * O * * *\s
-                * * * * * * *\s
-                    O * O    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O O O * O O\s
-                * * * O O * *\s
-                * * * * * * *\s
-                    O * O    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O O O O * *\s
-                * * * O O * *\s
-                * * * * * * *\s
-                    O * O    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O O O * * *\s
-                * * * O * * *\s
-                * * * * O * *\s
-                    O * O    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O O O * * *\s
-                * * * O O * *\s
-                * * * * * * *\s
-                    O * *    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O O O * * *\s
-                * * O * * * *\s
-                * * * * * * *\s
-                    O * *    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O * O * * *\s
-                * * * * * * *\s
-                * * O * * * *\s
-                    O * *    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                O O * O * * *\s
-                * * O * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                * * O O * * *\s
-                * * O * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    O O O    \s
-                    O O *    \s
-                * O * * * * *\s
-                * * O * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    * O O    \s
-                    * O *    \s
-                * O O * * * *\s
-                * * O * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    * O O    \s
-                    O O *    \s
-                * O * * * * *\s
-                * * * * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    O * *    \s
-                    O O *    \s
-                * O * * * * *\s
-                * * * * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    * * *    \s
-                    * O *    \s
-                * O O * * * *\s
-                * * * * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    * * *    \s
-                    * O *    \s
-                * * * O * * *\s
-                * * * * * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-                    * * *    \s
-                    * * *    \s
-                * * * * * * *\s
-                * * * O * * *\s
-                * * * * * * *\s
-                    * * *    \s
-                    * * *    \s
-
-
-                """;
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ * ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ * ⚫ ⚫ ⚫\s
+                                         ⚫ * ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ * * ⚫\s
+                                         ⚫ * ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ * ⚫\s
+                                         ⚫ * *    \s
+                                         ⚫ ⚫ *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ * ⚫\s
+                                         ⚫ * *    \s
+                                         * * ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ * * ⚫ ⚫\s
+                                         ⚫ * *    \s
+                                         * * ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ * ⚫ * *\s
+                                         ⚫ * *    \s
+                                         * * ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ * * ⚫ * *\s
+                                         * * *    \s
+                                         ⚫ * ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     * * ⚫ * ⚫ * *\s
+                                         * * *    \s
+                                         ⚫ * ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ * ⚫ ⚫\s
+                                     * * ⚫ * * * *\s
+                                         * * ⚫    \s
+                                         ⚫ * ⚫    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ * ⚫ ⚫\s
+                                     * * ⚫ * ⚫ * *\s
+                                         * * *    \s
+                                         ⚫ * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ * *\s
+                                     * * ⚫ * ⚫ * *\s
+                                         * * *    \s
+                                         ⚫ * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ ⚫ ⚫ * * *\s
+                                     * * ⚫ * * * *\s
+                                         * * ⚫    \s
+                                         ⚫ * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ * ⚫ * * *\s
+                                     * * * * * * *\s
+                                         ⚫ * ⚫    \s
+                                         ⚫ * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     ⚫ ⚫ * ⚫ * * *\s
+                                     * * ⚫ * * * *\s
+                                         * * ⚫    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     * * ⚫ ⚫ * * *\s
+                                     * * ⚫ * * * *\s
+                                         * * ⚫    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ ⚫    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
+                                     * * * ⚫ * * *\s
+                                     * * * * * * *\s
+                                         ⚫ * ⚫    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ ⚫ ⚫ * ⚫ ⚫\s
+                                     * * * ⚫ ⚫ * *\s
+                                     * * * * * * *\s
+                                         ⚫ * ⚫    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ ⚫ ⚫ ⚫ * *\s
+                                     * * * ⚫ ⚫ * *\s
+                                     * * * * * * *\s
+                                         ⚫ * ⚫    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ ⚫ ⚫ * * *\s
+                                     * * * ⚫ * * *\s
+                                     * * * * ⚫ * *\s
+                                         ⚫ * ⚫    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ ⚫ ⚫ * * *\s
+                                     * * * ⚫ ⚫ * *\s
+                                     * * * * * * *\s
+                                         ⚫ * *    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ ⚫ ⚫ * * *\s
+                                     * * ⚫ * * * *\s
+                                     * * * * * * *\s
+                                         ⚫ * *    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ * ⚫ * * *\s
+                                     * * * * * * *\s
+                                     * * ⚫ * * * *\s
+                                         ⚫ * *    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     ⚫ ⚫ * ⚫ * * *\s
+                                     * * ⚫ * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     * * ⚫ ⚫ * * *\s
+                                     * * ⚫ * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         ⚫ ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     * ⚫ * * * * *\s
+                                     * * ⚫ * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         * ⚫ ⚫    \s
+                                         * ⚫ *    \s
+                                     * ⚫ ⚫ * * * *\s
+                                     * * ⚫ * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         * ⚫ ⚫    \s
+                                         ⚫ ⚫ *    \s
+                                     * ⚫ * * * * *\s
+                                     * * * * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         ⚫ * *    \s
+                                         ⚫ ⚫ *    \s
+                                     * ⚫ * * * * *\s
+                                     * * * * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         * * *    \s
+                                         * ⚫ *    \s
+                                     * ⚫ ⚫ * * * *\s
+                                     * * * * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         * * *    \s
+                                         * ⚫ *    \s
+                                     * * * ⚫ * * *\s
+                                     * * * * * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                         * * *    \s
+                                         * * *    \s
+                                     * * * * * * *\s
+                                     * * * ⚫ * * *\s
+                                     * * * * * * *\s
+                                         * * *    \s
+                                         * * *    \s
+                                     
+                                     
+                                     """;
         Board board = new EnglishBoard(new BitManipulator());
         SolutionStrategy strategy = new DepthFirstStrategy();
         Long startPosition = board.getStartPosition();
