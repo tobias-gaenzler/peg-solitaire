@@ -29,11 +29,6 @@ public class QuadraticBoardSizeSix implements Board {
     }
 
     @Override
-    public String renderPosition(Long position) {
-        return new PositionRenderer(new PositionTransformer()).renderToString(position, this);
-    }
-
-    @Override
     public List<Move> getMoves() {
         return boardDataHolder.getMoves();
     }
@@ -41,11 +36,6 @@ public class QuadraticBoardSizeSix implements Board {
     @Override
     public Set<Long> getConnectedMoveMasks() {
         return boardDataHolder.getConnectedMoveMasks();
-    }
-
-    @Override
-    public Integer getNumberOfHoles() {
-        return size * size;
     }
 
     @Override
@@ -83,16 +73,6 @@ public class QuadraticBoardSizeSix implements Board {
         // ● ● ● ● ● ●
         // ● ● ● ● ● ●
         return 0B111111_111111_110111_111111_111111_111111L;
-    }
-
-    /**
-     * No specific end position is defined (every position with one peg is a solution).
-     *
-     * @return null
-     */
-    @Override
-    public Long getEndPosition() {
-        return null;
     }
 
     /**

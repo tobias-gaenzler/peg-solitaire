@@ -7,23 +7,20 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class QuadraticBoardSizeFourTest {
-
-    private final Board board = new QuadraticBoardSizeFour(new BitManipulator());
-    private final static int SIZE = 4;
+class QuadraticBoardSizeFiveTest {
+    private final Board board = new QuadraticBoardSizeFive(new BitManipulator());
+    private final static int SIZE = 5;
 
     @Test
     public void testQuadraticBoardAttributes() {
         assertThat(board).isNotNull();
         assertThat(board.getColumns()).isEqualTo(SIZE);
         assertThat(board.getRows()).isEqualTo(SIZE);
-        assertThat(board.getNumberOfHoles()).isEqualTo(SIZE * SIZE);
 
         //  check layout and startPosition
-        Long layout = 0B1111_1111_1111_1111L;
+        Long layout = 0B11111_11111_11111_11111_11111L;
         assertThat(board.getLayout()).isEqualTo(layout);
-        Long startPosition = 0B1110_1011_1111_1111L;
+        Long startPosition = 0B11111_11111_11111_11011_11111L;
         assertThat(board.getStartPosition()).isEqualTo(startPosition);
     }
 
@@ -31,11 +28,12 @@ public class QuadraticBoardSizeFourTest {
     public void testRenderPosition() {
         String positionString =
                 """
-                
-                ● ● ● •\s
-                ● • ● ●\s
-                ● ● ● ●\s
-                ● ● ● ●\s
+                                        
+                ● ● ● ● ●\s
+                ● ● ● ● ●\s
+                ● ● ● ● ●\s
+                ● ● • ● ●\s
+                ● ● ● ● ●\s
                 """;
         Long startPosition = board.getStartPosition();
         assertThat(board.renderPosition(startPosition)).isEqualTo(positionString);
@@ -43,24 +41,24 @@ public class QuadraticBoardSizeFourTest {
 
     @Test
     public void testGetSymmetricPositions() {
-        long[] positions = board.getSymmetricPositions(0B1011_0110_1001_1110L);
+        long[] positions = board.getSymmetricPositions(0B00111_10101_11011_01011_11100L);
         long[] expectedPositions = new long[8];
         // orig
-        expectedPositions[0] = 0B1011_0110_1001_1110L;
+        expectedPositions[0] = 0B11110101110110101111100L;
         // rot 180
-        expectedPositions[1] = 0B0111_1001_0110_1101L;
+        expectedPositions[1] = 0B11111010110111010111100L;
         // mirror horizontally
-        expectedPositions[2] = 0B1101_0110_1001_0111L;
+        expectedPositions[2] = 0B1110010101110111101000111L;
         // mirror vertically
-        expectedPositions[3] = 0B1110_1001_0110_1011L;
+        expectedPositions[3] = 0B1110001011110111010100111L;
         // mirror diag1
-        expectedPositions[4] = 0B1011_0101_1101_1010L;
+        expectedPositions[4] = 0B110100111110011011011110L;
         // mirror diag2
-        expectedPositions[5] = 0B0101_1011_1010_1101L;
+        expectedPositions[5] = 0B111101101100111110010110L;
         // rot 90
-        expectedPositions[6] = 0B1010_1101_0101_1011L;
+        expectedPositions[6] = 0B1111010110110010011101101L;
         // rot 270
-        expectedPositions[7] = 0B1101_1010_1011_0101L;
+        expectedPositions[7] = 0B1011011100100110110101111L;
         // print positions to be able to visually control that the symmetric positions are correct
         Arrays.stream(expectedPositions).forEach(position -> System.out.println(board.renderPosition(position)));
         assertThat(positions).isEqualTo(expectedPositions);

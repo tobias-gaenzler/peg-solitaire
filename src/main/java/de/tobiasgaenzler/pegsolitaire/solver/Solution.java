@@ -41,11 +41,6 @@ public class Solution {
         return this;
     }
 
-    /**
-     * Getter for the position list
-     *
-     * @return the list of positions
-     */
     public List<Long> getPositions() {
         return this.positions;
     }
@@ -93,10 +88,10 @@ public class Solution {
     }
 
     /**
-     * pretty print this solution using the board
+     * pretty print this solution using a board
      *
      * @param board the board, the positions live on
-     * @return a string representing the solution in the board
+     * @return a string representing the solution on the board
      */
     public String toString(Board board) {
         StringBuilder solutionString = new StringBuilder();

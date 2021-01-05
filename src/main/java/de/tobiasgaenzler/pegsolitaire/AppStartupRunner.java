@@ -3,6 +3,7 @@ package de.tobiasgaenzler.pegsolitaire;
 import de.tobiasgaenzler.pegsolitaire.board.Board;
 import de.tobiasgaenzler.pegsolitaire.board.BoardFactory;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
+import de.tobiasgaenzler.pegsolitaire.solver.Solution;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.DepthFirstStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class AppStartupRunner implements ApplicationRunner {
                 args.getOptionNames());
         LOG.info("Compute a solution for the english board");
 		Board englishBoard = boardFactory.getBoard(EnglishBoard.NAME);
-		strategy.solve(englishBoard, englishBoard.getStartPosition());
+        Solution solution = strategy.solve(englishBoard, englishBoard.getStartPosition());
+        LOG.info(solution.toString(englishBoard));
     }
 }

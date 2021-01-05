@@ -46,7 +46,8 @@ public class DepthFirstStrategy implements SolutionStrategy {
         solution.getPositions().set(numberOfMoves, startPosition);
 
         // call this method for each consecutive position and return if a solution is found
-        for (long position : board.getConsecutivePositions(startPosition)) {
+        long[] consecutivePositions = board.getConsecutivePositions(startPosition);
+        for (long position : consecutivePositions) {
 
             // set consecutive position
             solution.getPositions().set(numberOfMoves + 1, position);

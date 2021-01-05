@@ -1,9 +1,6 @@
 package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
-import de.tobiasgaenzler.pegsolitaire.board.Board;
-import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
-import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFive;
-import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFour;
+import de.tobiasgaenzler.pegsolitaire.board.*;
 import de.tobiasgaenzler.pegsolitaire.solver.Solution;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
@@ -252,6 +249,267 @@ public class DepthFirstStrategyTest {
         Board board = new QuadraticBoardSizeFive(new BitManipulator());
         SolutionStrategy strategy = new DepthFirstStrategy();
         long startPosition = 0B11111_11111_11111_11011_11111L;
+
+        Solution solution = strategy.solve(board, startPosition);
+
+        assertThat(solution.toString(board)).isEqualTo(expectedSolution);
+    }
+
+    @Test
+    public void testDepthFirstStrategyForQuadraticBoardSizeSix() {
+        // depth first is deterministic and always returns the same solution.
+        // prefer visual representation (better documentation and easier to grasp if really a solution).
+        String expectedSolution = """
+                                
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● • ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                ● ● • ● ● ●\s
+                ● ● • ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • ● ● ● ●\s
+                ● ● • ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • • ● ●\s
+                ● ● • ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                ● ● • ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                • • ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                • ● • • ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                • ● • ● • •\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                ● ● • ● • •\s
+                • ● ● ● ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                • • ● ● • •\s
+                • ● ● ● ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                • ● • • • •\s
+                • ● ● ● ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • ● • ● • •\s
+                • ● • • • •\s
+                ● • • ● ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • ● • •\s
+                • • • • • •\s
+                ● ● • ● ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • ● • •\s
+                • • • • • •\s
+                • • ● ● ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • ● • •\s
+                • • • • • •\s
+                • ● • • ● ●\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • ● • •\s
+                • • • • • •\s
+                • ● • ● • •\s
+                • ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • ● • •\s
+                • ● • • • •\s
+                • • • ● • •\s
+                • • ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • ● • •\s
+                • ● • ● • •\s
+                • • • • • •\s
+                • • ● • ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • • • •\s
+                • ● • • • •\s
+                • • • ● • •\s
+                • • ● • ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • • • •\s
+                • ● • • • •\s
+                • • • ● • •\s
+                • • ● ● • •\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • • • •\s
+                • ● • ● • •\s
+                • • • • • •\s
+                • • ● • • •\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+
+                • • • • • •\s
+                • ● • ● • •\s
+                • • • • • •\s
+                ● • ● • • •\s
+                • ● ● ● ● ●\s
+                • ● ● ● ● ●\s
+
+                • • • • • •\s
+                • ● • ● • •\s
+                • • • • • •\s
+                ● • ● • • •\s
+                • ● ● ● ● ●\s
+                ● • • ● ● ●\s
+
+                • • • • • •\s
+                • ● • ● • •\s
+                • • • • • •\s
+                ● • ● ● • •\s
+                • ● ● • ● ●\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • ● • ● • •\s
+                • • • • • •\s
+                ● • ● ● • •\s
+                • ● ● ● • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • ● • ● • •\s
+                • • • ● • •\s
+                ● • ● • • •\s
+                • ● ● • • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • ● • • • •\s
+                • • • • • •\s
+                ● • ● ● • •\s
+                • ● ● • • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • ● • • • •\s
+                • • • • • •\s
+                ● ● • • • •\s
+                • ● ● • • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • ● • • • •\s
+                • ● • • • •\s
+                ● • • • • •\s
+                • • ● • • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                ● ● • • • •\s
+                • • ● • • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • ● • • •\s
+                • • ● • • •\s
+                ● • • • ● ●\s
+
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                ● • ● • ● ●\s
+
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                ● • ● ● • •\s
+
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                ● ● • • • •\s
+
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • • • • •\s
+                • • ● • • •\s
+
+                """;
+        Board board = new QuadraticBoardSizeSix(new BitManipulator());
+        SolutionStrategy strategy = new DepthFirstStrategy();
+        long startPosition = 0B111111_111111_110111_111111_111111_111111L;
 
         Solution solution = strategy.solve(board, startPosition);
 

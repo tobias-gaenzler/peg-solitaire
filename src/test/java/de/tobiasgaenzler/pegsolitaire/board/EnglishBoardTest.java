@@ -1,78 +1,38 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
-import de.tobiasgaenzler.pegsolitaire.solver.Solution;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class EnglishBoardTest {
 
-    private EnglishBoard englishBoard;
+    private final static int SIZE = 7;
+    private EnglishBoard board;
 
     @BeforeEach
     public void createBoard() {
-        this.englishBoard = new EnglishBoard(new BitManipulator());
+        this.board = new EnglishBoard(new BitManipulator());
     }
 
     @Test
     public void testEnglishBoardAttributes() {
-        assertNotNull(englishBoard);
-        assertEquals((Integer) 7, englishBoard.getColumns());
-        assertEquals((Integer) 7, englishBoard.getRows());
-        assertEquals((Integer) 49, englishBoard.getNumberOfHoles());
+        assertThat(board).isNotNull();
+        assertThat(board.getColumns()).isEqualTo(SIZE);
+        assertThat(board.getRows()).isEqualTo(SIZE);
 
         //  check layout and startPosition
         Long layout = 0B0011100_0011100_1111111_1111111_1111111_0011100_0011100L;
-        assertEquals(layout, englishBoard.getLayout());
+        assertThat(board.getLayout()).isEqualTo(layout);
         Long startPosition = 0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L;
-        assertEquals(startPosition, englishBoard.getStartPosition());
+        assertThat(board.getStartPosition()).isEqualTo(startPosition);
     }
 
     @Test
-    public void testCountMoves() {
-        Solution solution = new Solution();
-
-        // solution with 15 moves
-        solution.add(0B0000000_0000000_0000000_0001000_0000000_0000000_0000000L);
-        solution.add(0B0000000_0001000_0001000_0000000_0000000_0000000_0000000L);
-        solution.add(0B0000000_0001000_0000110_0000000_0000000_0000000_0000000L);
-        solution.add(0B0000000_0001000_0000100_0000010_0000010_0000000_0000000L);
-        solution.add(0B0000000_0001000_0000100_0000010_0001100_0000000_0000000L);
-        solution.add(0B0000000_0001000_0001100_0001010_0000100_0000000_0000000L);
-        solution.add(0B0000000_0001000_0001100_0001010_0011000_0000000_0000000L);
-        solution.add(0B0000000_0001000_0001100_0001010_1101000_0000000_0000000L);
-        solution.add(0B0000000_0001000_1001100_1001010_0101000_0000000_0000000L);
-        solution.add(0B0000000_0001000_0111100_1001010_0101000_0000000_0000000L);
-        solution.add(0B0010000_0011000_0101100_1001010_0101000_0000000_0000000L);
-        solution.add(0B0001100_0011000_0101100_1001010_0101000_0000000_0000000L);
-        solution.add(0B0001100_0011000_0101011_1001010_0101000_0000000_0000000L);
-        solution.add(0B0001100_0011000_0101010_1001011_0101001_0000000_0000000L);
-        solution.add(0B0001100_0001000_0111010_1011011_0101001_0000000_0000000L);
-        solution.add(0B0001100_0001000_0111010_1001011_0111001_0010000_0000000L);
-        solution.add(0B0001100_0001000_0111010_1001011_0111001_0001100_0000000L);
-        solution.add(0B0001100_0001000_0111010_1001111_0111101_0001000_0000000L);
-        solution.add(0B0001100_0001100_0111110_1001011_0111101_0001000_0000000L);
-        solution.add(0B0001100_0001100_0111110_1001011_0111001_0001100_0000100L);
-        solution.add(0B0001100_0001100_0111110_1001011_0111001_0001100_0011000L);
-        solution.add(0B0011100_0011100_0101110_1001011_0111001_0001100_0011000L);
-        solution.add(0B0011100_0011100_0111110_1011011_0101001_0001100_0011000L);
-        solution.add(0B0011100_0011100_0111110_1011111_0101101_0001000_0011000L);
-        solution.add(0B0011100_0011100_0111110_1011111_0101001_0001100_0011100L);
-        solution.add(0B0011100_0011100_0111110_1011111_0100111_0001100_0011100L);
-        solution.add(0B0011100_0011100_0111110_1011111_0011111_0001100_0011100L);
-        solution.add(0B0011100_0011100_0111110_1011111_1101111_0001100_0011100L);
-        solution.add(0B0011100_0011100_0111110_1001111_1111111_0011100_0011100L);
-        solution.add(0B0011100_0011100_0111110_1110111_1111111_0011100_0011100L);
-        Integer numMoves = solution.countMoves(englishBoard);
-        assertEquals((Integer) 15, numMoves);
-    }
-
-    @Test
-    public void testPositionToString() {
+    public void testRenderPosition() {
         String positionString =
                 """
                                             
@@ -84,13 +44,38 @@ public class EnglishBoardTest {
                     ● ● ●    \s
                     ● ● ●    \s
                 """;
-        assertThat(englishBoard.renderPosition(englishBoard.getStartPosition())).isEqualTo(positionString);
+        Long startPosition = board.getStartPosition();
+        assertThat(board.renderPosition(startPosition)).isEqualTo(positionString);
     }
 
     @Test
     public void testNumberOfPins() {
-        assertEquals(32, this.englishBoard.getNumberOfPegs(this.englishBoard.getStartPosition()));
-        assertEquals(0, this.englishBoard.getNumberOfPegs(0L));
+        assertThat(this.board.getNumberOfPegs(this.board.getStartPosition())).isEqualTo(32);
+        assertThat(this.board.getNumberOfPegs(0L)).isEqualTo(0);
     }
 
+    @Test
+    public void testGetSymmetricPositions() {
+        long[] positions = board.getSymmetricPositions(0B0010100_0001100_0111001_1001100_1101100_0011000_0001000L);
+        long[] expectedPositions = new long[8];
+        // orig
+        expectedPositions[0] = 0B10100000110001110011001100110110000110000001000L;
+        // rot 180
+        expectedPositions[1] = 0B1000000110000110110011001100111000110000010100L;
+        // mirror horizontally
+        expectedPositions[2] = 0B10100001100010011100011001001101100011000001000L;
+        // mirror vertically
+        expectedPositions[3] = 0B1000001100011011001001100011100100011000010100L;
+        // mirror diag1
+        expectedPositions[4] = 0B11000001010001001011111110001101100000000000100L;
+        // mirror diag2
+        expectedPositions[5] = 0B10000000000011011000111111101001000101000001100L;
+        // rot 90
+        expectedPositions[6] = 0B100000000000110111111110010010100101000011000L;
+        // rot 270
+        expectedPositions[7] = 0B1100001010010100100111111110110000000000010000L;
+        // print positions to be able to visually control that the symmetric positions are correct
+        Arrays.stream(expectedPositions).forEach(position -> System.out.println(board.renderPosition(position)));
+        assertThat(positions).isEqualTo(expectedPositions);
+    }
 }

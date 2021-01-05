@@ -7,23 +7,20 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class QuadraticBoardSizeFourTest {
-
-    private final Board board = new QuadraticBoardSizeFour(new BitManipulator());
-    private final static int SIZE = 4;
+class QuadraticBoardSizeSixTest {
+    private final Board board = new QuadraticBoardSizeSix(new BitManipulator());
+    private final static int SIZE = 6;
 
     @Test
     public void testQuadraticBoardAttributes() {
         assertThat(board).isNotNull();
         assertThat(board.getColumns()).isEqualTo(SIZE);
         assertThat(board.getRows()).isEqualTo(SIZE);
-        assertThat(board.getNumberOfHoles()).isEqualTo(SIZE * SIZE);
 
         //  check layout and startPosition
         Long layout = 0B1111_1111_1111_1111L;
         assertThat(board.getLayout()).isEqualTo(layout);
-        Long startPosition = 0B1110_1011_1111_1111L;
+        Long startPosition = 0B111111_111111_110111_111111_111111_111111L;
         assertThat(board.getStartPosition()).isEqualTo(startPosition);
     }
 
@@ -31,11 +28,13 @@ public class QuadraticBoardSizeFourTest {
     public void testRenderPosition() {
         String positionString =
                 """
-                
-                ● ● ● •\s
-                ● • ● ●\s
-                ● ● ● ●\s
-                ● ● ● ●\s
+                                        
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● • ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
+                ● ● ● ● ● ●\s
                 """;
         Long startPosition = board.getStartPosition();
         assertThat(board.renderPosition(startPosition)).isEqualTo(positionString);
@@ -43,7 +42,7 @@ public class QuadraticBoardSizeFourTest {
 
     @Test
     public void testGetSymmetricPositions() {
-        long[] positions = board.getSymmetricPositions(0B1011_0110_1001_1110L);
+        long[] positions = board.getSymmetricPositions(0B101010_001100_100110_001101_110111_111001L);
         long[] expectedPositions = new long[8];
         // orig
         expectedPositions[0] = 0B1011_0110_1001_1110L;

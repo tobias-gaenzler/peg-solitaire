@@ -1,7 +1,8 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Interface to describe common methods of boards.
@@ -19,7 +20,9 @@ public interface Board {
      *
      * @return Integer of columns times number of rows
      */
-    Integer getNumberOfHoles();
+    default Integer getNumberOfHoles() {
+        return getColumns() * getRows();
+    }
 
 
     /**
@@ -59,9 +62,11 @@ public interface Board {
      * Quadratic boards usually do not have a predefined end position, the game is solved, when there
      * remains only one piece.
      *
-     * @return a position which indicates that the game is solved.
+     * @return a position which indicates that the game is solved or null
      */
-    Long getEndPosition();
+    default Long getEndPosition() {
+        return null;
+    }
 
     /**
      * get all positions which are symmetric to this position
@@ -80,8 +85,13 @@ public interface Board {
      * @param position Long the position on the board
      * @return the position as string
      */
-    String renderPosition(Long position);
+    default String renderPosition(Long position) {
+        return new PositionRenderer(new PositionTransformer()).renderToString(position, this);
+    }
 
+    /**
+     * @return list of possible moves for this board
+     */
     List<Move> getMoves();
 
     /**
@@ -102,10 +112,10 @@ public interface Board {
     }
 
     /**
-     * test bit at index in number. Used to check if a peg is present at position index
+     * test bit at index in number. Used to check if a peg is present at position index.
      *
      * @param number long
-     * @param index  position of bit
+     * @param index  position of bit (zero based)
      * @return true if bit at index is set
      */
     default boolean testBit(long number, int index) {
@@ -140,7 +150,7 @@ public interface Board {
      * Assemble masks for connected moves.
      */
     default void assembleMoves(List<Move> moves, Set<Long> connectedMoveMasks) {
-        Long layout = this.getLayout();
+        Long layout = getLayout();
         // find all possible moves for this board
         // order of traversal: top left to bottom right
         for (int row = getRows() - 1; row > -1; row--) {

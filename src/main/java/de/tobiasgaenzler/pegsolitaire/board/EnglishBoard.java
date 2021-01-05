@@ -30,16 +30,6 @@ public class EnglishBoard implements Board {
     }
 
     @Override
-    public String renderPosition(Long position) {
-        return new PositionRenderer(new PositionTransformer()).renderToString(position, this);
-    }
-
-    @Override
-    public Integer getNumberOfHoles() {
-        return size * size;
-    }
-
-    @Override
     public List<Move> getMoves() {
         return boardDataHolder.getMoves();
     }
@@ -96,7 +86,7 @@ public class EnglishBoard implements Board {
     @Override
     public Long getEndPosition() {
         //for the english board the end position is the inverse of the start position.
-        return 0B0001000_0000000_0000000_0000000L;
+        return 0B0000000_0000000_0000000_0001000_0000000_0000000_0000000L;
     }
 
 
