@@ -125,7 +125,7 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
 
     /**
      * Assemble all reachable positions starting with startPosition.
-     * Use the join/fork framework: ParallelStrategyTask
+     * Use the stream().parallel() for concurrency.
      *
      * @param board         the board where the positions live
      * @param startPosition start finding positions with this start position
