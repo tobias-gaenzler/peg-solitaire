@@ -18,7 +18,7 @@ class QuadraticBoardSizeSixTest {
         assertThat(board.getRows()).isEqualTo(SIZE);
 
         //  check layout and startPosition
-        Long layout = 0B1111_1111_1111_1111L;
+        Long layout = 0B111111_111111_111111_111111_111111_111111L;
         assertThat(board.getLayout()).isEqualTo(layout);
         Long startPosition = 0B111111_111111_110111_111111_111111_111111L;
         assertThat(board.getStartPosition()).isEqualTo(startPosition);
@@ -45,21 +45,21 @@ class QuadraticBoardSizeSixTest {
         long[] positions = board.getSymmetricPositions(0B101010_001100_100110_001101_110111_111001L);
         long[] expectedPositions = new long[8];
         // orig
-        expectedPositions[0] = 0B1011_0110_1001_1110L;
+        expectedPositions[0] = 0B101010001100100110001101110111111001L;
         // rot 180
-        expectedPositions[1] = 0B0111_1001_0110_1101L;
+        expectedPositions[1] = 0B100111111011101100011001001100010101L;
         // mirror horizontally
-        expectedPositions[2] = 0B1101_0110_1001_0111L;
+        expectedPositions[2] = 0B10101001100011001101100111011100111L;
         // mirror vertically
-        expectedPositions[3] = 0B1110_1001_0110_1011L;
+        expectedPositions[3] = 0B111001110111001101100110001100101010L;
         // mirror diag1
-        expectedPositions[4] = 0B1011_0101_1101_1010L;
+        expectedPositions[4] = 0B101011000011110101011110101010000111L;
         // mirror diag2
-        expectedPositions[5] = 0B0101_1011_1010_1101L;
+        expectedPositions[5] = 0B111000010101011110101011110000110101L;
         // rot 90
-        expectedPositions[6] = 0B1010_1101_0101_1011L;
+        expectedPositions[6] = 0B111101010011110110101000011101011L;
         // rot 270
-        expectedPositions[7] = 0B1101_1010_1011_0101L;
+        expectedPositions[7] = 0B110101110000101011011110010101111000L;
         // print positions to be able to visually control that the symmetric positions are correct
         Arrays.stream(expectedPositions).forEach(position -> System.out.println(board.renderPosition(position)));
         assertThat(positions).isEqualTo(expectedPositions);
