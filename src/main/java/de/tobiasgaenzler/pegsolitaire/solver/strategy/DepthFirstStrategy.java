@@ -52,7 +52,7 @@ public class DepthFirstStrategy implements SolutionStrategy {
             // set consecutive position
             solution.getPositions().set(numberOfMoves + 1, position);
 
-            // return if we are finished
+            // return if a solution has been found
             if (solution.isEndPositionValid(board)) {
                 solved.set(true);
                 return;

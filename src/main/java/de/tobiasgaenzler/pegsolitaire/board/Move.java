@@ -69,4 +69,35 @@ public class Move {
         return end;
     }
 
+    @Override
+    public String toString() {
+        return "Move{" +
+                "mask=" + mask +
+                ", check=" + check +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Move move = (Move) o;
+
+        if (mask != move.mask) return false;
+        if (check != move.check) return false;
+        if (start != move.start) return false;
+        return end == move.end;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (mask ^ (mask >>> 32));
+        result = 31 * result + (int) (check ^ (check >>> 32));
+        result = 31 * result + (int) (start ^ (start >>> 32));
+        result = 31 * result + (int) (end ^ (end >>> 32));
+        return result;
+    }
 }
