@@ -19,8 +19,6 @@ import java.util.stream.StreamSupport;
 /**
  * This strategy will assemble all reachable positions (modulo symmetry) and calculate all
  * possible solutions. The solution returned will be one with the lowest number of moves.
- * Currently this strategy needs much more memory than the single-thread strategy to run efficiently
- * since the set of following positions needs to be divided/copied.
  */
 @Component
 public class ParallelStreamStrategy implements WinningPositionsStrategy {
