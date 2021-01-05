@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PositionRendererTest {
 
-    private final PositionRenderer positionRenderer = new PositionRenderer(new PositionTransformer());
+    private final PositionRenderer positionRenderer = new PositionRenderer();
 
     @Test
     public void testRenderToStringShouldRenderPositionOn4x4BoardCorrectly() {

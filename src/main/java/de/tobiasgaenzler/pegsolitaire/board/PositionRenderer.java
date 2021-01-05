@@ -1,7 +1,5 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,14 +14,13 @@ import static de.tobiasgaenzler.pegsolitaire.board.PositionContent.*;
  *     <li>Matrix (can be used for advanced graphical representation)</li>
  * </ul>
  */
-@Component
 public class PositionRenderer {
 
     public static final String SPACE = "\u0020";
     private final PositionTransformer positionTransformer;
 
-    public PositionRenderer(PositionTransformer positionTransformer) {
-        this.positionTransformer = positionTransformer;
+    public PositionRenderer() {
+        this.positionTransformer = new PositionTransformer();
     }
 
     /**
