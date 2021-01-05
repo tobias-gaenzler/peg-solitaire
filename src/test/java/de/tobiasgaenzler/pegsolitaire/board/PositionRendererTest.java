@@ -28,7 +28,8 @@ public class PositionRendererTest {
 
     @Test
     public void renderToStringShouldRenderPositionOnEnglishBoardCorrectly() {
-        String boardPresentation = positionRenderer.renderToString(0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L, new EnglishBoard(new BitManipulator()));
+        EnglishBoard englishBoard = new EnglishBoard(new BitManipulator());
+        String boardPresentation = positionRenderer.renderToString(0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L, englishBoard);
         assertThat(boardPresentation).isEqualTo("""
 
                     ● ● ●    \s

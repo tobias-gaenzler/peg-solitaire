@@ -25,7 +25,7 @@ public class AppStartupRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         LOG.info("Application started with option names : {}",
                 args.getOptionNames());
-        LOG.info("Calculating a winning position for english board");
+        LOG.info("Compute a solution for the english board");
 		Board englishBoard = boardFactory.getBoard(EnglishBoard.NAME);
 		strategy.solve(englishBoard, englishBoard.getStartPosition());
     }

@@ -2,6 +2,7 @@ package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
+import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFive;
 import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFour;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ParallelStreamStrategyTest {
 
     @Test
-    public void testParallelStreamStrategyForQuadraticBoard() {
+    public void testParallelStreamStrategyForQuadraticBoardSizeFour() {
         Board board = new QuadraticBoardSizeFour(new BitManipulator());
         WinningPositionsStrategy strategy = new ParallelStreamStrategy();
         long startPosition = 0B1110_1011_1111_1111L;
@@ -41,6 +42,44 @@ public class ParallelStreamStrategyTest {
                 0));
     }
 
+    @Test
+    public void testParallelStreamStrategyForQuadraticBoardSizeFive() {
+        Board board = new QuadraticBoardSizeFive(new BitManipulator());
+        WinningPositionsStrategy strategy = new ParallelStreamStrategy();
+        long startPosition = 0B11111_11111_11111_11011_11111L;
+        List<Set<Long>> winningPositions = strategy.solve(board, startPosition);
+        List<Integer> numberOfWinningPositions = winningPositions.stream().map(Set::size).collect(Collectors.toList());
+        // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
+        assertThat(numberOfWinningPositions).isEqualTo(List.of(
+                0,
+                2,
+                3,
+                8,
+                26,
+                101,
+                336,
+                973,
+                2318,
+                4701,
+                8205,
+                12194,
+                15193,
+                15558,
+                13015,
+                8939,
+                5094,
+                2422,
+                966,
+                327,
+                95,
+                23,
+                6,
+                2,
+                1,
+                0));
+    }
+
+    // this test takes a while (approximately 2 minutes on my computer).
     @Test
     public void testParallelStreamStrategyForEnglishBoard() {
         Board board = new EnglishBoard(new BitManipulator());
