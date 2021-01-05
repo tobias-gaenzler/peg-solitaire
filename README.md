@@ -15,6 +15,8 @@ Start the application: this will find one solution for the english board and pri
 
 Run the following tests to find a single solution for one of the boards:
 * *DepthFirstStrategyTest*: find single solutions for all supported boards.
+
+Run the following test to find all *winning* positions for boards ((positions from which the final position can be reached):
 * *ParallelStreamStrategyTest*: compute all *winning* positions for quadratic boards (size 4 and 5) 
   and english board. The quadratic board size six is excluded because it needs a lot of memory and takes quite a while 
   (until now I have not been able to complete it with 16 GB memory).
