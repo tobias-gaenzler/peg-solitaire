@@ -1,8 +1,8 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
 /**
- * This class represents a move on a solitaire board.
- * The masks can be used to detect if a a move is possible for a position and to apply this move to a position.
+ * This class represents a move on a peg solitaire board (two adjacent pegs and hole, e.g. ● ● •)
+ * The masks can be used to detect if a move is possible for a position and to apply this move to a position.
  * End and start are used to detect if moves are connected.
  */
 public class Move {

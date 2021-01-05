@@ -11,38 +11,53 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PositionRendererTest {
 
-    private final PositionRenderer testee = new PositionRenderer(new PositionTransformer());
+    private final PositionRenderer positionRenderer = new PositionRenderer(new PositionTransformer());
 
     @Test
     public void renderToStringShouldRenderPositionOn4x4BoardCorrectly() {
-        String boardPresentation = testee.renderToString(0B1001_1110_0111_1010L, new QuadraticBoardSizeFour(new BitManipulator()));
+        QuadraticBoardSizeFour quadraticBoardSizeFour = new QuadraticBoardSizeFour(new BitManipulator());
+        String boardPresentation = positionRenderer.renderToString(0B1001_1110_0111_1010L, quadraticBoardSizeFour);
         assertThat(boardPresentation).isEqualTo("""
 
-                ⚫ * * ⚫\s
-                ⚫ ⚫ ⚫ *\s
-                * ⚫ ⚫ ⚫\s
-                ⚫ * ⚫ *\s
+                ● • • ●\s
+                ● ● ● •\s
+                • ● ● ●\s
+                ● • ● •\s
+                """);
+    }
+
+    @Test
+    public void renderToStringShouldRenderPositionOnEnglishBoardCorrectly() {
+        String boardPresentation = positionRenderer.renderToString(0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L, new EnglishBoard(new BitManipulator()));
+        assertThat(boardPresentation).isEqualTo("""
+
+                    ● ● ●    \s
+                    ● ● ●    \s
+                ● ● ● ● ● ● ●\s
+                ● ● ● • ● ● ●\s
+                ● ● ● ● ● ● ●\s
+                    ● ● ●    \s
+                    ● ● ●    \s
                 """);
     }
 
     @Test
     public void renderToMatrixShouldRenderPositionOn4x4BoardCorrectlyForPresentation() {
-        List<List<PositionContent>> matrix = testee.renderToMatrix(0B1001_1110_0111_1010L, new QuadraticBoardSizeFour(new BitManipulator()));
-        assertThat(matrix.get(0).get(0)).isEqualTo(PEG);
-        assertThat(matrix.get(0).get(1)).isEqualTo(HOLE);
-        assertThat(matrix.get(0).get(2)).isEqualTo(HOLE);
-        assertThat(matrix.get(0).get(3)).isEqualTo(PEG);
-        assertThat(matrix.get(1).get(0)).isEqualTo(PEG);
-        assertThat(matrix.get(1).get(1)).isEqualTo(PEG);
-        assertThat(matrix.get(1).get(2)).isEqualTo(PEG);
-        assertThat(matrix.get(1).get(3)).isEqualTo(HOLE);
-        assertThat(matrix.get(2).get(0)).isEqualTo(HOLE);
-        assertThat(matrix.get(2).get(1)).isEqualTo(PEG);
-        assertThat(matrix.get(2).get(2)).isEqualTo(PEG);
-        assertThat(matrix.get(2).get(3)).isEqualTo(PEG);
-        assertThat(matrix.get(3).get(0)).isEqualTo(PEG);
-        assertThat(matrix.get(3).get(1)).isEqualTo(HOLE);
-        assertThat(matrix.get(3).get(2)).isEqualTo(PEG);
-        assertThat(matrix.get(3).get(3)).isEqualTo(HOLE);
+        QuadraticBoardSizeFour quadraticBoardSizeFour = new QuadraticBoardSizeFour(new BitManipulator());
+        List<List<PositionContent>> matrix = positionRenderer.renderToMatrix(0B1001_1110_0111_1010L, quadraticBoardSizeFour);
+        // check that every position in the matrix is filled correctly
+        // ● • • ●
+        // ● ● ● •
+        // • ● ● ●
+        // ● • ● •
+
+        // first row
+        assertThat(matrix.get(0)).isEqualTo(List.of(PEG, HOLE, HOLE, PEG));
+        // second row
+        assertThat(matrix.get(1)).isEqualTo(List.of(PEG, PEG, PEG, HOLE));
+        // third row
+        assertThat(matrix.get(2)).isEqualTo(List.of(HOLE, PEG, PEG, PEG));
+        // fourth row
+        assertThat(matrix.get(3)).isEqualTo(List.of(PEG, HOLE, PEG, HOLE));
     }
 }

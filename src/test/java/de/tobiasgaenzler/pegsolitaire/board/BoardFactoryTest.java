@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("test") // prevent that a solution is calculated in tests via the AppStartupRunner
 public class BoardFactoryTest {
 
     @Autowired

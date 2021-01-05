@@ -75,7 +75,12 @@ public class QuadraticBoardSizeFive implements Board {
      */
     @Override
     public Long getStartPosition() {
-        // arbitrary position with two holes which has a solution.
+        // arbitrary position which has a solution.
+        // ● ● ● ● ●
+        // ● ● ● ● ●
+        // ● ● ● ● ●
+        // ● ● • ● ●
+        // ● ● ● ● ●
         return 0B11111_11111_11111_11011_11111L;
     }
 

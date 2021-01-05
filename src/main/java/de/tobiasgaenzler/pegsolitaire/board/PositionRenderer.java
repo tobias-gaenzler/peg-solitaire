@@ -19,6 +19,7 @@ import static de.tobiasgaenzler.pegsolitaire.board.PositionContent.*;
 @Component
 public class PositionRenderer {
 
+    public static final String SPACE = "\u0020";
     private final PositionTransformer positionTransformer;
 
     public PositionRenderer(PositionTransformer positionTransformer) {
@@ -39,9 +40,9 @@ public class PositionRenderer {
         List<List<PositionContent>> presentation = renderToMatrix(position, board);
         return presentation.stream().map(row -> //
                 row.stream()//
-                        .map(this::convertToString)//
-                        .collect(Collectors.joining(" "))//
-        ).collect(Collectors.joining(" \n", "\n", " \n"));
+                        .map(this::getStringRepresentation)//
+                        .collect(Collectors.joining(SPACE))//
+        ).collect(Collectors.joining(SPACE + "\n", "\n", SPACE + "\n"));
     }
 
 
@@ -60,7 +61,8 @@ public class PositionRenderer {
 
         for (int row = 0; row < board.getRows(); row++) {
             for (int column = 0; column < board.getColumns(); column++) {
-                rows.get(row).add(getContent(new MatrixPosition(row, column), position, board, positionTransformer));
+                PositionContent content = getContent(new MatrixPosition(row, column), position, board, positionTransformer);
+                rows.get(row).add(content);
             }
         }
         return rows;
@@ -78,13 +80,13 @@ public class PositionRenderer {
         }
     }
 
-    private String convertToString(PositionContent positionContent) {
+    private String getStringRepresentation(PositionContent positionContent) {
         if (positionContent.isPeg()) {
-            return "\u26AB";
+            return "\u25CF";
         } else if (positionContent.isHole()) {
-            return "*";
+            return "\u2022";
         } else {
-            return " ";
+            return SPACE;
         }
     }
 }

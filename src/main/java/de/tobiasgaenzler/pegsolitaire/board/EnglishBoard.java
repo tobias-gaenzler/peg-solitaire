@@ -31,21 +31,7 @@ public class EnglishBoard implements Board {
 
     @Override
     public String renderPosition(Long position) {
-        StringBuilder positionString = new StringBuilder();
-        for (int i = 0; i < getNumberOfHoles(); i++) {
-            if (!testBit(getLayout(), i)) {
-                positionString.append("  ");
-            } else if (testBit(position, i)) {
-                positionString.append("\u26AB ");
-            } else {
-                positionString.append("* ");
-            }
-            if ((i > 0) && (((i + 1) % getRows()) == 0)) {
-                positionString.append("\n");
-            }
-        }
-        positionString.append("\n");
-        return positionString.toString();
+        return new PositionRenderer(new PositionTransformer()).renderToString(position, this);
     }
 
     @Override
@@ -81,13 +67,13 @@ public class EnglishBoard implements Board {
     /**
      * The start position with a hole in the center:
      *<pre>
-     *        O O O
-     *        O O O
-     *    O O O O O O O
-     *    O O O * O O O
-     *    O O O O O O O
-     *        O O O
-     *        O O O
+     *      ● ● ●
+     *      ● ● ●
+     *  ● ● ● ● ● ● ●
+     *  ● ● ● • ● ● ●
+     *  ● ● ● ● ● ● ●
+     *      ● ● ●
+     *      ● ● ●
      *</pre>
      */
     @Override
@@ -98,13 +84,13 @@ public class EnglishBoard implements Board {
     /**
      * The end position with a peg in the center:
      *<pre>
-     *      * * *
-     *      * * *
-     *  * * * * * * *
-     *  * * * O * * *
-     *  * * * * * * *
-     *      * * *
-     *      * * *
+     *      • • •
+     *      • • •
+     *  • • • • • • •
+     *  • • • ● • • •
+     *  • • • • • • •
+     *      • • •
+     *      • • •
      * </pre>
      */
     @Override

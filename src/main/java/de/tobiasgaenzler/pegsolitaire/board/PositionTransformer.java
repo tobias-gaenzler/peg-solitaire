@@ -3,8 +3,8 @@ package de.tobiasgaenzler.pegsolitaire.board;
 import org.springframework.stereotype.Component;
 
 /**
- * Transforms positions between presentation positions (suitable for printing, matrix, left to right, top to bottom)
- * and internal presentation for calculations (matrix, bottom to top, right to left)
+ * Transforms positions between presentation (suitable for printing, matrix, left to right, top to bottom)
+ * and internal representation for calculations (matrix, bottom to top, right to left)
  */
 @Component
 public class PositionTransformer {

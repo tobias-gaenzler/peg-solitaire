@@ -51,7 +51,8 @@ public class Solution {
     }
 
     /**
-     * count moves for this solution on board
+     * count moves for this solution on board. A move may consist of several consecutive positions if the same peg is moved
+     * i.e. the same peg is used to remove multiple pegs from the board.
      *
      * @param board the board the positions live on
      * @return the number of moves for this solution

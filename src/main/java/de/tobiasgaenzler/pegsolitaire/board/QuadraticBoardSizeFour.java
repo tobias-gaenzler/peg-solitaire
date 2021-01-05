@@ -73,15 +73,19 @@ public class QuadraticBoardSizeFour implements Board {
     /**
      * A solvable start position with two holes:
      * <pre>
-     *                 ⚫ ⚫ ⚫ ⚪
-     *                 ⚫ ⚪ ⚫ ⚫
-     *                 ⚫ ⚫ ⚫ ⚫
-     *                 ⚫ ⚫ ⚫ ⚫
+     *                 ● ● ● •
+     *                 ● • ● ●
+     *                 ● ● ● ●
+     *                 ● ● ● ●
      * </pre>
      */
     @Override
     public Long getStartPosition() {
         // arbitrary position with two holes which has a solution.
+        // ● ● ● •
+        // ● • ● ●
+        // ● ● ● ●
+        // ● ● ● ●
         return 0B1110_1011_1111_1111L;
     }
 

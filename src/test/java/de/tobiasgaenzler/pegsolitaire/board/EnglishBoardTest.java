@@ -11,25 +11,25 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class EnglishBoardTest {
 
-    private Board board;
+    private EnglishBoard englishBoard;
 
     @BeforeEach
     public void createBoard() {
-        this.board = new EnglishBoard(new BitManipulator());
+        this.englishBoard = new EnglishBoard(new BitManipulator());
     }
 
     @Test
     public void testEnglishBoardAttributes() {
-        assertNotNull(board);
-        assertEquals((Integer) 7, board.getColumns());
-        assertEquals((Integer) 7, board.getRows());
-        assertEquals((Integer) 49, board.getNumberOfHoles());
+        assertNotNull(englishBoard);
+        assertEquals((Integer) 7, englishBoard.getColumns());
+        assertEquals((Integer) 7, englishBoard.getRows());
+        assertEquals((Integer) 49, englishBoard.getNumberOfHoles());
 
         //  check layout and startPosition
         Long layout = 0B0011100_0011100_1111111_1111111_1111111_0011100_0011100L;
-        assertEquals(layout, board.getLayout());
+        assertEquals(layout, englishBoard.getLayout());
         Long startPosition = 0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L;
-        assertEquals(startPosition, board.getStartPosition());
+        assertEquals(startPosition, englishBoard.getStartPosition());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class EnglishBoardTest {
         solution.add(0B0011100_0011100_0111110_1011111_1101111_0001100_0011100L);
         solution.add(0B0011100_0011100_0111110_1001111_1111111_0011100_0011100L);
         solution.add(0B0011100_0011100_0111110_1110111_1111111_0011100_0011100L);
-        Integer numMoves = solution.countMoves(board);
+        Integer numMoves = solution.countMoves(englishBoard);
         assertEquals((Integer) 15, numMoves);
     }
 
@@ -75,22 +75,22 @@ public class EnglishBoardTest {
     public void testPositionToString() {
         String positionString =
                 """
-                    ⚫ ⚫ ⚫    \s
-                    ⚫ ⚫ ⚫    \s
-                ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
-                ⚫ ⚫ ⚫ * ⚫ ⚫ ⚫\s
-                ⚫ ⚫ ⚫ ⚫ ⚫ ⚫ ⚫\s
-                    ⚫ ⚫ ⚫    \s
-                    ⚫ ⚫ ⚫    \s
-
+                                            
+                    ● ● ●    \s
+                    ● ● ●    \s
+                ● ● ● ● ● ● ●\s
+                ● ● ● • ● ● ●\s
+                ● ● ● ● ● ● ●\s
+                    ● ● ●    \s
+                    ● ● ●    \s
                 """;
-        assertThat(board.renderPosition(board.getStartPosition())).isEqualTo(positionString);
+        assertThat(englishBoard.renderPosition(englishBoard.getStartPosition())).isEqualTo(positionString);
     }
 
     @Test
     public void testNumberOfPins() {
-        assertEquals(32, this.board.getNumberOfPegs(this.board.getStartPosition()));
-        assertEquals(0, this.board.getNumberOfPegs(0L));
+        assertEquals(32, this.englishBoard.getNumberOfPegs(this.englishBoard.getStartPosition()));
+        assertEquals(0, this.englishBoard.getNumberOfPegs(0L));
     }
 
 }
