@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("!test")
 public class AppStartupRunner implements ApplicationRunner {
-    private static final Logger LOG = LoggerFactory.getLogger(AppStartupRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppStartupRunner.class);
     @Autowired
 	private DepthFirstStrategy strategy;
     @Autowired
@@ -24,11 +24,11 @@ public class AppStartupRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        LOG.info("Application started with option names : {}",
+        logger.info("Application started with option names : {}",
                 args.getOptionNames());
-        LOG.info("Compute a solution for the english board");
+        logger.info("Compute a solution for the english board");
 		Board englishBoard = boardFactory.getBoard(EnglishBoard.NAME);
         Solution solution = strategy.solve(englishBoard, englishBoard.getStartPosition());
-        LOG.info(solution.toString(englishBoard));
+        logger.info(solution.toString(englishBoard));
     }
 }

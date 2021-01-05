@@ -3,13 +3,15 @@ package de.tobiasgaenzler.pegsolitaire.board;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class EnglishBoardTest {
-
+    private static final Logger logger = LoggerFactory.getLogger(EnglishBoardTest.class);
     private final static int SIZE = 7;
     private EnglishBoard board;
 
@@ -35,15 +37,15 @@ public class EnglishBoardTest {
     public void testRenderPosition() {
         String positionString =
                 """
-                                            
-                    ● ● ●    \s
-                    ● ● ●    \s
-                ● ● ● ● ● ● ●\s
-                ● ● ● • ● ● ●\s
-                ● ● ● ● ● ● ●\s
-                    ● ● ●    \s
-                    ● ● ●    \s
-                """;
+                                                    
+                            ● ● ●    \s
+                            ● ● ●    \s
+                        ● ● ● ● ● ● ●\s
+                        ● ● ● • ● ● ●\s
+                        ● ● ● ● ● ● ●\s
+                            ● ● ●    \s
+                            ● ● ●    \s
+                        """;
         Long startPosition = board.getStartPosition();
         assertThat(board.renderPosition(startPosition)).isEqualTo(positionString);
     }
@@ -75,7 +77,7 @@ public class EnglishBoardTest {
         // rot 270
         expectedPositions[7] = 0B1100001010010100100111111110110000000000010000L;
         // print positions to be able to visually control that the symmetric positions are correct
-        Arrays.stream(expectedPositions).forEach(position -> System.out.println(board.renderPosition(position)));
+        Arrays.stream(expectedPositions).forEach(position -> logger.info(board.renderPosition(position)));
         assertThat(positions).isEqualTo(expectedPositions);
     }
 }

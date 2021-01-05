@@ -1,6 +1,8 @@
 package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,6 +24,8 @@ import java.util.stream.StreamSupport;
  */
 @Component
 public class ParallelStreamStrategy implements WinningPositionsStrategy {
+    private static final Logger logger = LoggerFactory.getLogger(ParallelStreamStrategy.class);
+
 
     private final List<Set<Long>> reachablePositions = new ArrayList<>();
 
@@ -31,13 +35,13 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
         assembleReachablePositions(board, startPosition);
         long start = System.currentTimeMillis();
         check(board);
-        System.out.println("Time check: " + (System.currentTimeMillis() - start));
+        logger.info("Time check: {}", (System.currentTimeMillis() - start));
         start = System.currentTimeMillis();
         removeNonWinningPositions(board);
         long totalSolutionTime = System.currentTimeMillis() - start;
-        System.out.println("Time non winning positions: " + totalSolutionTime + "\n");
+        logger.info("Time non winning positions: {}\n", totalSolutionTime);
         storePositionsInFile(board);
-        return  reachablePositions;
+        return reachablePositions;
     }
 
     private void storePositionsInFile(Board board) {
@@ -90,7 +94,7 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
                     }
                 }
             }
-            System.out.println("Check " + pins + ": " + redundantPositions.size() + ", Time: " + (System.currentTimeMillis() - start));
+            logger.info("Check {}: {}, Time: {}", pins, redundantPositions.size(), (System.currentTimeMillis() - start));
         }
     }
 
@@ -114,7 +118,7 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
                     }
                 }
             });
-            System.out.println(pegs + ": " + winningPositions.size() + " winning positions (all: " + positions.size() + ")");
+            logger.info("{}: {} winning positions (all: {})", pegs, winningPositions.size(), positions.size());
             reachablePositions.set(pegs, winningPositions);
         }
     }
@@ -164,9 +168,9 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
                 }
             });
             totalTime += (System.currentTimeMillis() - start);
-            System.out.println(numberOfRemainingPieces + ": " + reachablePositions.get(numberOfRemainingPieces).size() + " positions in " +
-                    (System.currentTimeMillis() - start) + " ms");
+            logger.info("{}: {} positions in {} ms", numberOfRemainingPieces, reachablePositions.get(numberOfRemainingPieces).size(),
+                    (System.currentTimeMillis() - start));
         }
-        System.out.println("TOTAL TIME REACHABLE POSITIONS: " + totalTime + " ms");
+        logger.info("TOTAL TIME REACHABLE POSITIONS: {} ms", totalTime);
     }
 }
