@@ -4,9 +4,11 @@ import de.tobiasgaenzler.pegsolitaire.board.Board;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
 import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFive;
 import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFour;
+import de.tobiasgaenzler.pegsolitaire.solver.SerializationService;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,80 +20,53 @@ public class ParallelStreamStrategyTest {
     @Test
     public void testParallelStreamStrategyForQuadraticBoardSizeFour() {
         Board board = new QuadraticBoardSizeFour(new BitManipulator());
-        WinningPositionsStrategy strategy = new ParallelStreamStrategy();
+        SerializationService serializationService = new SerializationService();
+        WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
         long startPosition = 0B1110_1011_1111_1111L;
-        List<Set<Long>> winningPositions = strategy.solve(board, startPosition);
-        List<Integer> numberOfWinningPositions = winningPositions.stream().map(Set::size).collect(Collectors.toList());
+        List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
+        List<Integer> numberOfWinningPositions =
+                winningPositionsPaths.stream().map(path -> {
+                    Set<Long> positions = serializationService.readPositionsFromFile(path);
+                    return positions.size();
+                }).collect(Collectors.toList());
         // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
         assertThat(numberOfWinningPositions).isEqualTo(List.of(
-                0,
-                1,
-                1,
-                3,
-                11,
-                29,
-                61,
-                99,
-                117,
-                97,
-                60,
-                26,
-                10,
-                4,
-                1,
-                0));
+                1, 4, 10, 26, 60, 97, 117, 99, 61, 29, 11, 3, 1, 1));
     }
 
     @Test
     public void testParallelStreamStrategyForQuadraticBoardSizeFive() {
         Board board = new QuadraticBoardSizeFive(new BitManipulator());
-        WinningPositionsStrategy strategy = new ParallelStreamStrategy();
+        SerializationService serializationService = new SerializationService();
+        WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
         long startPosition = 0B11111_11111_11111_11011_11111L;
-        List<Set<Long>> winningPositions = strategy.solve(board, startPosition);
-        List<Integer> numberOfWinningPositions = winningPositions.stream().map(Set::size).collect(Collectors.toList());
+        List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
+        List<Integer> numberOfWinningPositions =
+                winningPositionsPaths.stream().map(path -> {
+                    Set<Long> positions = serializationService.readPositionsFromFile(path);
+                    return positions.size();
+                }).collect(Collectors.toList());
         // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
-        assertThat(numberOfWinningPositions).isEqualTo(List.of(
-                0,
-                2,
-                3,
-                8,
-                26,
-                101,
-                336,
-                973,
-                2318,
-                4701,
-                8205,
-                12194,
-                15193,
-                15558,
-                13015,
-                8939,
-                5094,
-                2422,
-                966,
-                327,
-                95,
-                23,
-                6,
-                2,
-                1,
-                0));
+        assertThat(numberOfWinningPositions).isEqualTo(List.of(1, 2, 6, 23, 95, 327, 966, 2422, 5094, 8939, 13015, 15558, 15193, 12194, 8205, 4701, 2318, 973, 336, 101, 26, 8, 3, 2));
     }
 
     // this test takes a while (approximately 2 minutes on my computer).
     @Test
     public void testParallelStreamStrategyForEnglishBoard() {
         Board board = new EnglishBoard(new BitManipulator());
-        WinningPositionsStrategy strategy = new ParallelStreamStrategy();
+        SerializationService serializationService = new SerializationService();
+        WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
         Long startPosition = board.getStartPosition();
-        List<Set<Long>> winningPositions = strategy.solve(board, startPosition);
-        List<Integer> numberOfWinningPositions = winningPositions.stream().map(Set::size).collect(Collectors.toList());
+        List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
+        List<Integer> numberOfWinningPositions =
+                winningPositionsPaths.stream().map(path -> {
+                    Set<Long> positions = serializationService.readPositionsFromFile(path);
+                    return positions.size();
+                }).collect(Collectors.toList());
         // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
         // compare http://www.gibell.net/pegsolitaire/English/index.html
         assertThat(numberOfWinningPositions).isEqualTo(List.of(
-                0,
-                2,
+                1,
                 1,
                 2,
                 8,
@@ -122,7 +97,6 @@ public class ParallelStreamStrategyTest {
                 8,
                 2,
                 1,
-                1,
-                0));
+                2));
     }
 }

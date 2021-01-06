@@ -2,8 +2,8 @@ package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
 
+import java.nio.file.Path;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Interface for finding all winning positions for a solitaire game.
@@ -17,7 +17,7 @@ public interface WinningPositionsStrategy {
      *
      * @param board         the board for the game
      * @param startPosition find winning positions for this start position
-     * @return the winning positions (grouped by number of pegs on the board)
+     * @return the paths to the files with the winning positions (first is start position, grouped by number of pegs on the board)
      */
-    List<Set<Long>> solve(Board board, Long startPosition);
+    List<Path> solve(Board board, Long startPosition);
 }

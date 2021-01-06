@@ -1,20 +1,17 @@
 package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
+import de.tobiasgaenzler.pegsolitaire.solver.SerializationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * This strategy will assemble all reachable positions (modulo symmetry).
@@ -23,43 +20,24 @@ import java.util.stream.StreamSupport;
 public class ParallelStreamStrategy implements WinningPositionsStrategy {
 
     private static final Logger logger = LoggerFactory.getLogger(ParallelStreamStrategy.class);
-    private final List<Set<Long>> reachablePositions = Collections.synchronizedList(new ArrayList<>());
+    private final List<Path> positionFilePaths = new ArrayList<>();
+    private final SerializationService serializationService;
+
+    @Autowired
+    public ParallelStreamStrategy(SerializationService serializationService) {
+        this.serializationService = serializationService;
+    }
 
     @Override
-    public List<Set<Long>> solve(Board board, Long startPosition) {
-        reachablePositions.clear();
+    public List<Path> solve(Board board, Long startPosition) {
+        positionFilePaths.clear();
         assembleReachablePositions(board, startPosition);
         long start = System.currentTimeMillis();
         removeNonWinningPositions(board);
         long totalSolutionTime = System.currentTimeMillis() - start;
         logger.info("Time non winning positions: {}\n", totalSolutionTime);
-        storePositionsInFile(board);
-        return reachablePositions;
+        return positionFilePaths;
     }
-
-    private void storePositionsInFile(Board board) {
-        List<String> strings = reachablePositions.stream().skip(1)// skip first because it is always null
-                .filter(list -> !list.isEmpty())// ignore empty lists
-                .map(positions ->//
-                        positions.stream()//
-                                .filter(Objects::nonNull)// ignore null values
-                                .map(String::valueOf)//
-                                .collect(Collectors.joining(",")))//
-                .collect(Collectors.toList());
-        Iterator<String> reversedStream = new LinkedList<>(strings).descendingIterator();
-
-        List<String> reverseOrderStrings = StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(reversedStream,
-                        Spliterator.ORDERED), false).collect(
-                Collectors.toList());
-        Path path = Paths.get(board.getName() + "_positions.txt");
-        try {
-            Files.write(path, reverseOrderStrings, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     /**
      * Assemble all reachable positions starting with startPosition.
@@ -70,43 +48,41 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
      */
     private void assembleReachablePositions(Board board, Long startPosition) {
         int numberOfStartPins = board.getNumberOfPegs(startPosition);
-
-        for (int i = 0; i <= numberOfStartPins + 1; i++) {
-            reachablePositions.add(ConcurrentHashMap.newKeySet());
-        }
-
-        // add startPosition to reachablePositions
-        reachablePositions.get(numberOfStartPins).add(startPosition);
+        Path path = serializationService.storePositionsInFile(board, Set.of(startPosition), numberOfStartPins);
+        positionFilePaths.add(path);
 
         long totalTime = 0L;
         for (int numberOfRemainingPieces = numberOfStartPins - 1; (numberOfRemainingPieces > 0); numberOfRemainingPieces--) {
             long start = System.currentTimeMillis();
-            Set<Long> followingPositions = reachablePositions.get(numberOfRemainingPieces);
-            reachablePositions.get(numberOfRemainingPieces + 1).stream().parallel().forEach(currentPosition -> {
+            Set<Long> previousPositions = serializationService.readPositionsFromFile(path);
+            Set<Long> consecutivePositions = ConcurrentHashMap.newKeySet();
+            previousPositions.stream().parallel().forEach(currentPosition -> {
                 for (long consecutivePosition : board.getConsecutivePositions(currentPosition)) {
-                    if (followingPositions.contains(consecutivePosition)) {
+                    if (consecutivePositions.contains(consecutivePosition)) {
                         continue;
                     }
                     boolean inSet = false;
                     for (long symPos : board.getSymmetricPositions(consecutivePosition)) {
                         //check if a symmetric position is already in the set
-                        if (followingPositions.contains(symPos)) {
+                        if (consecutivePositions.contains(symPos)) {
                             inSet = true;
                             break;
                         }
                     }
                     //add position if no equivalent (symmetric) position is already in set
                     if (!inSet) {
-                        followingPositions.add(consecutivePosition);
+                        consecutivePositions.add(consecutivePosition);
                     }
                 }
             });
-            totalTime += (System.currentTimeMillis() - start);
-            logger.info("{}: {} reachable positions in {} ms", numberOfRemainingPieces, reachablePositions.get(numberOfRemainingPieces).size(),
-                    (System.currentTimeMillis() - start));
-            removeSymmetricPositions(board, followingPositions);
-        }
+            path = serializationService.storePositionsInFile(board, consecutivePositions, numberOfRemainingPieces);
+            positionFilePaths.add(path);
 
+            totalTime += (System.currentTimeMillis() - start);
+            logger.info("{}: {} reachable positions in {} ms", numberOfRemainingPieces, consecutivePositions.size(),
+                    (System.currentTimeMillis() - start));
+            removeSymmetricPositions(board, consecutivePositions);
+        }
         logger.info("TOTAL TIME REACHABLE POSITIONS: {} ms", totalTime);
     }
 
@@ -148,9 +124,11 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
      * @param board the board, the positions live on
      */
     private void removeNonWinningPositions(Board board) {
-        for (int pegs = 2; pegs < reachablePositions.size(); pegs++) {
-            Set<Long> positions = reachablePositions.get(pegs);
-            Set<Long> followingPositions = reachablePositions.get(pegs - 1);
+        int numberOfPegs = positionFilePaths.size();
+        // go backwards
+        for (int pegs = numberOfPegs - 1; pegs > 0; pegs--) {
+            Set<Long> positions = serializationService.readPositionsFromFile(positionFilePaths.get(pegs - 1));
+            Set<Long> followingPositions = serializationService.readPositionsFromFile(positionFilePaths.get(pegs));
             Set<Long> winningPositions = ConcurrentHashMap.newKeySet();
             positions.stream().parallel().forEach(position -> {
                 for (long consecutivePosition : board.getConsecutivePositions(position)) {
@@ -162,8 +140,9 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
                     }
                 }
             });
+            removeSymmetricPositions(board, winningPositions);
             logger.info("{}: {} winning positions (all: {})", pegs, winningPositions.size(), positions.size());
-            reachablePositions.set(pegs, winningPositions);
+            serializationService.storePositionsInFile(board, winningPositions, numberOfPegs - pegs + 1);
         }
     }
 }
