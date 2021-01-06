@@ -14,18 +14,20 @@ Supported boards:
 Start the application: this will find one solution for the english board and print it to console.
 
 Run the following tests to find a single solution for one of the boards:
-* *DepthFirstStrategyTest*: find single solutions for all supported boards.
+* *DepthFirstStrategyTest*
 
-Run the following test to find all *winning* positions for boards ((positions from which the final position can be reached):
+Run the following test to find all *winning* positions for boards (positions from which the final position can be reached):
 * *ParallelStreamStrategyTest*: compute all *winning* positions for quadratic boards (size 4 and 5) 
   and english board. The quadratic board size six is excluded because it needs a lot of memory and takes quite a while 
   (until now I have not been able to complete it with 16 GB memory).
 
 ## Algorithm
 A java *long* (64 bits) is used to represent positions on a board (bit set means a peg is located at this position).
+
 For finding a single solution a depth first search is performed (solution written to file).
-When all positions for which the solution can be reached are computed the following steps are executed:
-* for each position compute recursively possible following positions 
+
+When all winning positions are computed the following steps are executed:
+* for each position compute recursively following positions 
   (repeat until there final position is reached or there are no possible moves)
 * remove all positions from which the final position can not be reached  
 The *winning* positions (positions from which the final position can be reached) are written to file.
