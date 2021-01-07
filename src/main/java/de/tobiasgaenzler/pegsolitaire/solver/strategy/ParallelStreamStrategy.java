@@ -125,7 +125,7 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
      */
     private void removeNonWinningPositions(Board board) {
         int numberOfPegs = positionFilePaths.size();
-        // go backwards
+        // go backwards (files are ordered: 0: start position, ... ,numberOfPegs-1: positions with one peg)
         for (int pegs = numberOfPegs - 1; pegs > 0; pegs--) {
             Set<Long> positions = serializationService.readPositionsFromFile(positionFilePaths.get(pegs - 1));
             Set<Long> followingPositions = serializationService.readPositionsFromFile(positionFilePaths.get(pegs));
