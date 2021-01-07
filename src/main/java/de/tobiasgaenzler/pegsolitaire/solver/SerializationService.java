@@ -5,19 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class SerializationService {
@@ -27,33 +21,44 @@ public class SerializationService {
         Path path = Paths.get(board.getName() + "_" + numberOfRemainingPieces + "_positions.txt");
         logger.debug("Storing positions for {} pegs in file '{}'", numberOfRemainingPieces, path);
         Instant start = Instant.now();
-        String positionString = positions.stream().filter(Objects::nonNull)// ignore null values
-                .map(String::valueOf)//
-                .collect(Collectors.joining(","));
-
-        try {
-            Files.write(path, Collections.singletonList(positionString), StandardCharsets.UTF_8);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(path.getFileName().toString());
+             DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fileOutputStream))
+        ) {
+            positions.forEach(position -> {
+                try {
+                    outStream.writeLong(position);
+                } catch (IOException e) {
+                    logger.error("Could not write to file {}:  {}", path, e.getMessage());
+                    throw new RuntimeException(e);
+                }
+            });
         } catch (IOException e) {
-            logger.error("Could not write to file {}:  {}",path, e.getMessage());
+            logger.error("Could not open file '{}' for writing:  {}", path, e.getMessage());
             throw new RuntimeException(e);
         }
         logger.debug("Storing positions took {} ms", Duration.between(start, Instant.now()).toMillis());
         return path;
     }
 
+    @SuppressWarnings("InfiniteLoopStatement") // for performance reasons we use an infinite loop here
     public Set<Long> readPositionsFromFile(Path path) {
         logger.debug("Reading positions from file {}", path);
+        Set<Long> positions = new HashSet<>();
         Instant start = Instant.now();
-        Stream<String> lines;
-        try {
-            lines = Files.lines(path);
+
+        try (BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(path.toFile()));
+             DataInputStream reader = new DataInputStream(fileInputStream)
+        ) {
+            while (true) { // reader.available() is too slow
+                positions.add(reader.readLong());
+            }
+        } catch (EOFException e) {
+            logger.debug("reached end of file {}", path);
         } catch (IOException e) {
-            logger.error("Could not read from file {}:  {}",path, e.getMessage());
+            logger.error("Could not read from file {}:  {}", path, e.getMessage());
             throw new RuntimeException(e);
         }
-        String data = lines.collect(Collectors.joining(""));
-        lines.close();
-        Set<Long> positions = Arrays.stream(data.split(",")).mapToLong(Long::valueOf).boxed().collect(Collectors.toSet());
+
         logger.debug("Reading positions took {} ms", Duration.between(start, Instant.now()).toMillis());
         return positions;
     }
