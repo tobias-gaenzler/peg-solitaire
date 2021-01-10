@@ -16,7 +16,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * This strategy will assemble all reachable positions (modulo symmetry).
+ * This strategy will assemble all winning positions (modulo symmetry).
+ * A winning position is a position from which the end position can be reached i.e. which is part of a solution.
  */
 @Component
 public class ParallelStreamStrategy implements WinningPositionsStrategy {
