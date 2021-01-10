@@ -12,8 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ActiveProfiles("test") // prevent that a solution is calculated in tests via the AppStartupRunner
 public class BoardFactoryTest {
 
+    private final BoardFactory boardFactory;
+
     @Autowired
-    private BoardFactory boardFactory;
+    public BoardFactoryTest(BoardFactory boardFactory) {
+        this.boardFactory = boardFactory;
+    }
 
     @Test
     public void testEnglishBoardCreation() {

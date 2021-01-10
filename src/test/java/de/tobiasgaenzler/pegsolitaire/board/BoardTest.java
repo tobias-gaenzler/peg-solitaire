@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 class BoardTest {
 
-    Board board = spy(Board.class);
+    private final Board board = spy(Board.class);
 
     @Test
     public void testGetNumberOfPegsReturnsTwoForPositionWithTwoPegs() {
