@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 class SerializationServiceTest {
     private final static Logger logger = LoggerFactory.getLogger(SerializationServiceTest.class);
-    private static final int COUNT = 50_000_000;
+    private static final int COUNT = 1000;
 
     @Test
     public void testWritingAndReadingPositions() {
