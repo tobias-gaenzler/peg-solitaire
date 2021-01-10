@@ -21,6 +21,15 @@ public class SerializationService {
     private final static Logger logger = LoggerFactory.getLogger(SerializationService.class);
     public static final String POSITION_SEPARATOR = ",";
 
+    /**
+     * Write set of positions to file. Binary file format is used because it is faster than using strings
+     *
+     * @param board                   only used for filename
+     * @param positions               set of positions to write to file as binary data
+     * @param numberOfRemainingPieces only used for filename
+     * @return the file path of the file containing the positions
+     */
+
     public Path storePositionsInBinaryFile(Board board, Set<Long> positions, int numberOfRemainingPieces) {
         Path positionsFilePath = getBinaryPositionFilePath(board, numberOfRemainingPieces);
         logger.debug("Storing positions for {} pegs in file '{}'", numberOfRemainingPieces, positionsFilePath);
@@ -69,7 +78,8 @@ public class SerializationService {
 
     /**
      * Read binary position file and write the positions (long) as string to txt file.
-     * Source file is deleted.
+     * Use streams to avoid that all source file content is loaded into memory.
+     * Source file is deleted after completion.
      * Useful for further processing of calculated results e.g. in an app.
      *
      * @param binaryFilePath path to the binary positions file
