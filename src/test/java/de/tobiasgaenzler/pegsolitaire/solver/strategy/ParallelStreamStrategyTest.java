@@ -1,9 +1,6 @@
 package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
-import de.tobiasgaenzler.pegsolitaire.board.Board;
-import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
-import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFive;
-import de.tobiasgaenzler.pegsolitaire.board.QuadraticBoardSizeFour;
+import de.tobiasgaenzler.pegsolitaire.board.*;
 import de.tobiasgaenzler.pegsolitaire.solver.SerializationService;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
@@ -19,7 +16,7 @@ public class ParallelStreamStrategyTest {
 
     @Test
     public void testParallelStreamStrategyForQuadraticBoardSizeFour() {
-        Board board = new QuadraticBoardSizeFour(new BitManipulator());
+        Board board = new QuadraticBoardSizeFour(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
         WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
         long startPosition = 0B1110_1011_1111_1111L;
@@ -36,7 +33,7 @@ public class ParallelStreamStrategyTest {
 
     @Test
     public void testParallelStreamStrategyForQuadraticBoardSizeFive() {
-        Board board = new QuadraticBoardSizeFive(new BitManipulator());
+        Board board = new QuadraticBoardSizeFive(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
         WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
         long startPosition = 0B11111_11111_11111_11011_11111L;
@@ -53,7 +50,7 @@ public class ParallelStreamStrategyTest {
     // this test takes a while (approximately 2 minutes on my computer).
     @Test
     public void testParallelStreamStrategyForEnglishBoard() {
-        Board board = new EnglishBoard(new BitManipulator());
+        Board board = new EnglishBoard(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
         WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
         Long startPosition = board.getStartPosition();

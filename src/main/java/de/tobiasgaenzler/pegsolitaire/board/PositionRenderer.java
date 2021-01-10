@@ -1,5 +1,7 @@
 package de.tobiasgaenzler.pegsolitaire.board;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,10 +16,19 @@ import static de.tobiasgaenzler.pegsolitaire.board.PositionContent.*;
  *     <li>Matrix (can be used for advanced graphical representation)</li>
  * </ul>
  */
+@Component
 public class PositionRenderer {
 
-    public static final String SPACE = "\u0020";
+    public static final String SPACE = " ";
+    // used for consoles which can not print UTF-8 characters
+    public static final String PEG_REPRESENTATION = "O";
+    public static final String HOLE_REPRESENTATION = "*";
+    // used for tests (with better layout it is easier to see what went wrong)
+    public static final String PRETTY_PEG_REPRESENTATION = "\u25CF";
+    public static final String PRETTY_HOLE_REPRESENTATION = "\u2022";
+
     private final PositionTransformer positionTransformer;
+    private boolean usePrettyLayout = false;
 
     public PositionRenderer() {
         this.positionTransformer = new PositionTransformer();
@@ -79,11 +90,23 @@ public class PositionRenderer {
 
     private String getStringRepresentation(PositionContent positionContent) {
         if (positionContent.isPeg()) {
-            return "\u25CF";
+            if (usePrettyLayout) {
+                return PRETTY_PEG_REPRESENTATION;
+            } else {
+                return PEG_REPRESENTATION;
+            }
         } else if (positionContent.isHole()) {
-            return "\u2022";
+            if (usePrettyLayout) {
+                return PRETTY_HOLE_REPRESENTATION;
+            } else {
+                return HOLE_REPRESENTATION;
+            }
         } else {
             return SPACE;
         }
+    }
+
+    public void usePrettyLayout() {
+        usePrettyLayout = true;
     }
 }

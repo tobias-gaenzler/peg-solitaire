@@ -17,7 +17,7 @@ public class EnglishBoardTest {
 
     @BeforeEach
     public void createBoard() {
-        this.board = new EnglishBoard(new BitManipulator());
+        this.board = new EnglishBoard(new BitManipulator(), new PositionRenderer());
     }
 
     @Test
@@ -35,6 +35,7 @@ public class EnglishBoardTest {
 
     @Test
     public void testRenderPosition() {
+        board.getPositionRenderer().usePrettyLayout();
         String positionString =
                 """
                                                     
@@ -58,6 +59,7 @@ public class EnglishBoardTest {
 
     @Test
     public void testGetSymmetricPositions() {
+        board.getPositionRenderer().usePrettyLayout();
         long[] positions = board.getSymmetricPositions(0B0010100_0001100_0111001_1001100_1101100_0011000_0001000L);
         long[] expectedPositions = new long[8];
         // orig

@@ -23,9 +23,14 @@ public class QuadraticBoardSizeFour implements Board {
      * Default constructor which assembles possible moves.
      */
     @Autowired
-    public QuadraticBoardSizeFour(BitManipulator bitManipulator) {
+    public QuadraticBoardSizeFour(BitManipulator bitManipulator, PositionRenderer positionRenderer) {
         super();
-        boardDataHolder = new BoardDataHolder(bitManipulator, this);
+        boardDataHolder = new BoardDataHolder(bitManipulator, positionRenderer, this);
+    }
+
+    @Override
+    public PositionRenderer getPositionRenderer() {
+        return boardDataHolder.getPositionRenderer();
     }
 
     @Override

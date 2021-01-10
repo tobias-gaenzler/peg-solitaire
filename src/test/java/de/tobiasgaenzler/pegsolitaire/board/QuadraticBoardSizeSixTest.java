@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class QuadraticBoardSizeSixTest {
     private static final Logger logger = LoggerFactory.getLogger(QuadraticBoardSizeSixTest.class);
 
-    private final Board board = new QuadraticBoardSizeSix(new BitManipulator());
+    private final Board board = new QuadraticBoardSizeSix(new BitManipulator(), new PositionRenderer());
     private final static int SIZE = 6;
 
     @Test
@@ -30,6 +30,7 @@ class QuadraticBoardSizeSixTest {
 
     @Test
     public void testRenderPosition() {
+        board.getPositionRenderer().usePrettyLayout();
         String positionString =
                 """
                                         
@@ -46,6 +47,7 @@ class QuadraticBoardSizeSixTest {
 
     @Test
     public void testGetSymmetricPositions() {
+        board.getPositionRenderer().usePrettyLayout();
         long[] positions = board.getSymmetricPositions(0B101010_001100_100110_001101_110111_111001L);
         long[] expectedPositions = new long[8];
         // orig

@@ -12,16 +12,22 @@ import java.util.Set;
  */
 public class BoardDataHolder {
     private final BitManipulator bitManipulator;
+    private final PositionRenderer positionRenderer;
     private final List<Move> moves = new ArrayList<>();
     private final Set<Long> connectedMoveMasks = new HashSet<>();
 
-    public BoardDataHolder(BitManipulator bitManipulator, Board board) {
+    public BoardDataHolder(BitManipulator bitManipulator, PositionRenderer positionRenderer, Board board) {
         this.bitManipulator = bitManipulator;
+        this.positionRenderer = positionRenderer;
         board.assembleMoves(moves, connectedMoveMasks);
     }
 
     public BitManipulator getBitManipulator() {
         return bitManipulator;
+    }
+
+    public PositionRenderer getPositionRenderer() {
+        return positionRenderer;
     }
 
     public List<Move> getMoves() {

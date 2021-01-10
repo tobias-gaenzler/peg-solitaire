@@ -2,12 +2,12 @@ package de.tobiasgaenzler.pegsolitaire.solver;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
+import de.tobiasgaenzler.pegsolitaire.board.PositionRenderer;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SolutionTest {
 
@@ -91,7 +91,7 @@ public class SolutionTest {
                 .add(0B0011100_0011100_0111110_1001111_1111111_0011100_0011100L)
                 .add(0B0011100_0011100_0111110_1110111_1111111_0011100_0011100L);
 
-        EnglishBoard englishBoard = new EnglishBoard(new BitManipulator());
+        EnglishBoard englishBoard = new EnglishBoard(new BitManipulator(), new PositionRenderer());
         Integer numMoves = solution.countMoves(englishBoard);
         assertThat(numMoves).isEqualTo(15);
     }
@@ -103,13 +103,14 @@ public class SolutionTest {
 
         solution.add(0B110L)
                 .add(0B001L);
+        doReturn("• • ●\n").when(board).renderPosition(0B001L);
+        doReturn("● ● •\n").when(board).renderPosition(0B110L);
 
-        when(board.renderPosition(0B001L)).thenReturn("• • ●\n");
-        when(board.renderPosition(0B110L)).thenReturn("● ● •\n");
+        assertThat(solution.toString(board)).isEqualTo("""
+                ● ● •
+                • • ●
 
-        assertThat(solution.toString(board)).isEqualTo("● ● •\n" +
-                "• • ●\n" +
-                "\n");
+                """);
     }
 
 

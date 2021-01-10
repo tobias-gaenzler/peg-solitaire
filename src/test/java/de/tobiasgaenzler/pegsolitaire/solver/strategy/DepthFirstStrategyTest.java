@@ -86,7 +86,8 @@ public class DepthFirstStrategyTest {
                 • • • •\s
 
                 """;
-        Board board = new QuadraticBoardSizeFour(new BitManipulator());
+        Board board = new QuadraticBoardSizeFour(new BitManipulator(), new PositionRenderer());
+        board.getPositionRenderer().usePrettyLayout();
         SolutionStrategy strategy = new DepthFirstStrategy();
         long startPosition = 0B1110_1011_1111_1111L;
 
@@ -246,7 +247,8 @@ public class DepthFirstStrategyTest {
                 • • ● • •\s
 
                 """;
-        Board board = new QuadraticBoardSizeFive(new BitManipulator());
+        Board board = new QuadraticBoardSizeFive(new BitManipulator(), new PositionRenderer());
+        board.getPositionRenderer().usePrettyLayout();
         SolutionStrategy strategy = new DepthFirstStrategy();
         long startPosition = 0B11111_11111_11111_11011_11111L;
 
@@ -507,7 +509,8 @@ public class DepthFirstStrategyTest {
                 • • ● • • •\s
 
                 """;
-        Board board = new QuadraticBoardSizeSix(new BitManipulator());
+        Board board = new QuadraticBoardSizeSix(new BitManipulator(), new PositionRenderer());
+        board.getPositionRenderer().usePrettyLayout();
         SolutionStrategy strategy = new DepthFirstStrategy();
         long startPosition = 0B111111_111111_110111_111111_111111_111111L;
 
@@ -777,7 +780,8 @@ public class DepthFirstStrategyTest {
                     • • •    \s
 
                 """;
-        Board board = new EnglishBoard(new BitManipulator());
+        Board board = new EnglishBoard(new BitManipulator(), new PositionRenderer());
+        board.getPositionRenderer().usePrettyLayout();
         SolutionStrategy strategy = new DepthFirstStrategy();
         Long startPosition = board.getStartPosition();
 

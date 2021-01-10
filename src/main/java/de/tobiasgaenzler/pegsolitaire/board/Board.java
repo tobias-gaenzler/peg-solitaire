@@ -86,8 +86,10 @@ public interface Board {
      * @return the position as string
      */
     default String renderPosition(Long position) {
-        return new PositionRenderer().renderToString(position, this);
+        return getPositionRenderer().renderToString(position, this);
     }
+
+    PositionRenderer getPositionRenderer();
 
     /**
      * @return list of possible moves for this board

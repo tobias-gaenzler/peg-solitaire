@@ -15,7 +15,8 @@ public class PositionRendererTest {
 
     @Test
     public void testRenderToStringShouldRenderPositionOn4x4BoardCorrectly() {
-        QuadraticBoardSizeFour quadraticBoardSizeFour = new QuadraticBoardSizeFour(new BitManipulator());
+        QuadraticBoardSizeFour quadraticBoardSizeFour = new QuadraticBoardSizeFour(new BitManipulator(), new PositionRenderer());
+        positionRenderer.usePrettyLayout();
         String boardPresentation = positionRenderer.renderToString(0B1001_1110_0111_1010L, quadraticBoardSizeFour);
         assertThat(boardPresentation).isEqualTo("""
 
@@ -28,7 +29,8 @@ public class PositionRendererTest {
 
     @Test
     public void testRenderToStringShouldRenderPositionOnEnglishBoardCorrectly() {
-        EnglishBoard englishBoard = new EnglishBoard(new BitManipulator());
+        EnglishBoard englishBoard = new EnglishBoard(new BitManipulator(), new PositionRenderer());
+        positionRenderer.usePrettyLayout();
         String boardPresentation = positionRenderer.renderToString(0B0011100_0011100_1111111_1110111_1111111_0011100_0011100L, englishBoard);
         assertThat(boardPresentation).isEqualTo("""
 
@@ -44,7 +46,7 @@ public class PositionRendererTest {
 
     @Test
     public void testRenderToMatrixShouldRenderPositionOn4x4BoardCorrectlyForPresentation() {
-        QuadraticBoardSizeFour quadraticBoardSizeFour = new QuadraticBoardSizeFour(new BitManipulator());
+        QuadraticBoardSizeFour quadraticBoardSizeFour = new QuadraticBoardSizeFour(new BitManipulator(), new PositionRenderer());
         List<List<PositionContent>> matrix = positionRenderer.renderToMatrix(0B1001_1110_0111_1010L, quadraticBoardSizeFour);
         // check that every position in the matrix is filled correctly
         // ● • • ●
