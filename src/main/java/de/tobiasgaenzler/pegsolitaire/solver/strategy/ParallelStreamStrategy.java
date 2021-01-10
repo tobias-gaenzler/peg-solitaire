@@ -20,7 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ParallelStreamStrategy implements WinningPositionsStrategy {
 
     private static final Logger logger = LoggerFactory.getLogger(ParallelStreamStrategy.class);
-    private final List<Path> positionFilePaths = new ArrayList<>();
+    private final List<Path> binaryFilePaths = new ArrayList<>();
+    private final List<Path> txtFilePaths = new ArrayList<>();
     private final SerializationService serializationService;
 
     @Autowired
@@ -30,13 +31,14 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
 
     @Override
     public List<Path> solve(Board board, Long startPosition) {
-        positionFilePaths.clear();
+        binaryFilePaths.clear();
         assembleReachablePositions(board, startPosition);
         long start = System.currentTimeMillis();
         removeNonWinningPositions(board);
+        binaryFilePaths.forEach(binaryFilePath -> txtFilePaths.add(serializationService.convertBinaryFileToTxtFile(binaryFilePath)));
         long totalSolutionTime = System.currentTimeMillis() - start;
         logger.info("Time non winning positions: {}\n", totalSolutionTime);
-        return positionFilePaths;
+        return txtFilePaths;
     }
 
     /**
@@ -48,13 +50,13 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
      */
     private void assembleReachablePositions(Board board, Long startPosition) {
         int numberOfStartPins = board.getNumberOfPegs(startPosition);
-        Path path = serializationService.storePositionsInFile(board, Set.of(startPosition), numberOfStartPins);
-        positionFilePaths.add(path);
+        Path path = serializationService.storePositionsInBinaryFile(board, Set.of(startPosition), numberOfStartPins);
+        binaryFilePaths.add(path);
 
         long totalTime = 0L;
         for (int numberOfRemainingPieces = numberOfStartPins - 1; (numberOfRemainingPieces > 0); numberOfRemainingPieces--) {
             long start = System.currentTimeMillis();
-            Set<Long> previousPositions = serializationService.readPositionsFromFile(path);
+            Set<Long> previousPositions = serializationService.readPositionsFromBinaryFile(path);
             Set<Long> consecutivePositions = ConcurrentHashMap.newKeySet();
             previousPositions.stream().parallel().forEach(currentPosition -> {
                 for (long consecutivePosition : board.getConsecutivePositions(currentPosition)) {
@@ -75,8 +77,8 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
                     }
                 }
             });
-            path = serializationService.storePositionsInFile(board, consecutivePositions, numberOfRemainingPieces);
-            positionFilePaths.add(path);
+            path = serializationService.storePositionsInBinaryFile(board, consecutivePositions, numberOfRemainingPieces);
+            binaryFilePaths.add(path);
 
             totalTime += (System.currentTimeMillis() - start);
             logger.info("{}: {} reachable positions in {} ms", numberOfRemainingPieces, consecutivePositions.size(),
@@ -124,11 +126,11 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
      * @param board the board, the positions live on
      */
     private void removeNonWinningPositions(Board board) {
-        int numberOfPegs = positionFilePaths.size();
-        // go backwards (files are ordered: 0: start position, ... ,numberOfPegs-1: positions with one peg)
+        int numberOfPegs = binaryFilePaths.size();
+        // go backwards (files are ordered: 0: start position, ... , numberOfPegs-1: end position)
         for (int pegs = numberOfPegs - 1; pegs > 0; pegs--) {
-            Set<Long> positions = serializationService.readPositionsFromFile(positionFilePaths.get(pegs - 1));
-            Set<Long> followingPositions = serializationService.readPositionsFromFile(positionFilePaths.get(pegs));
+            Set<Long> positions = serializationService.readPositionsFromBinaryFile(binaryFilePaths.get(pegs - 1));
+            Set<Long> followingPositions = serializationService.readPositionsFromBinaryFile(binaryFilePaths.get(pegs));
             Set<Long> winningPositions = ConcurrentHashMap.newKeySet();
             positions.stream().parallel().forEach(position -> {
                 for (long consecutivePosition : board.getConsecutivePositions(position)) {
@@ -142,7 +144,7 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
             });
             removeSymmetricPositions(board, winningPositions);
             logger.info("{}: {} winning positions (all: {})", pegs, winningPositions.size(), positions.size());
-            serializationService.storePositionsInFile(board, winningPositions, numberOfPegs - pegs + 1);
+            serializationService.storePositionsInBinaryFile(board, winningPositions, numberOfPegs - pegs + 1);
         }
     }
 }

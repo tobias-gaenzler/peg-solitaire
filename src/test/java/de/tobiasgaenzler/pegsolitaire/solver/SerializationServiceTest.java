@@ -2,6 +2,8 @@ package de.tobiasgaenzler.pegsolitaire.solver;
 
 import de.tobiasgaenzler.pegsolitaire.board.Board;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.Set;
@@ -13,18 +15,39 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 class SerializationServiceTest {
-    private static final int COUNT = 100;
+    private final static Logger logger = LoggerFactory.getLogger(SerializationServiceTest.class);
+    private static final int COUNT = 50_000_000;
 
     @Test
-    public void testWritingAndReadingPositionsInFile() {
+    public void testWritingAndReadingPositions() {
         Board board = spy(Board.class);
         when(board.getName()).thenReturn("test-board");
-        Set<Long> numbers =
-                IntStream.range(0, COUNT).mapToLong(i -> (long) i).boxed().collect(Collectors.toSet());
-        SerializationService serializationService = new SerializationService();
-        Path path = serializationService.storePositionsInFile(board, numbers, 1);
 
-        Set<Long> numbersRead = serializationService.readPositionsFromFile(path);
-        assertThat(numbersRead).isEqualTo(numbers);
+        logger.debug("Create set of {} positions", COUNT);
+        Set<Long> numbers = IntStream.range(0, COUNT).mapToLong(i -> (long) i).boxed().collect(Collectors.toSet());
+        SerializationService serializationService = new SerializationService();
+
+        Path path = serializationService.storePositionsInBinaryFile(board, numbers, 1);
+
+        Set<Long> numbersFromFile = serializationService.readPositionsFromBinaryFile(path);
+
+        assertThat(numbersFromFile).isEqualTo(numbers);
+    }
+
+    @Test
+    public void testConvertBinaryFileToTxtFile() {
+        Board board = spy(Board.class);
+        when(board.getName()).thenReturn("test-board");
+
+        logger.debug("Create set of {} positions", COUNT);
+        Set<Long> numbers = IntStream.range(0, COUNT).mapToLong(i -> (long) i).boxed().collect(Collectors.toSet());
+        SerializationService serializationService = new SerializationService();
+
+        Path binaryFilePath = serializationService.storePositionsInBinaryFile(board, numbers, 1);
+
+        Path txtFilePath = serializationService.convertBinaryFileToTxtFile(binaryFilePath);
+
+        Set<Long> numbersFromFile = serializationService.readPositionsFromTxtFile(txtFilePath);
+        assertThat(numbersFromFile).isEqualTo(numbers);
     }
 }

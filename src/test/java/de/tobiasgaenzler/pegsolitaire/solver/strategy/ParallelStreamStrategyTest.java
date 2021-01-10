@@ -26,7 +26,7 @@ public class ParallelStreamStrategyTest {
         List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
         List<Integer> numberOfWinningPositions =
                 winningPositionsPaths.stream().map(path -> {
-                    Set<Long> positions = serializationService.readPositionsFromFile(path);
+                    Set<Long> positions = serializationService.readPositionsFromTxtFile(path);
                     return positions.size();
                 }).collect(Collectors.toList());
         // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
@@ -43,7 +43,7 @@ public class ParallelStreamStrategyTest {
         List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
         List<Integer> numberOfWinningPositions =
                 winningPositionsPaths.stream().map(path -> {
-                    Set<Long> positions = serializationService.readPositionsFromFile(path);
+                    Set<Long> positions = serializationService.readPositionsFromTxtFile(path);
                     return positions.size();
                 }).collect(Collectors.toList());
         // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
@@ -60,7 +60,7 @@ public class ParallelStreamStrategyTest {
         List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
         List<Integer> numberOfWinningPositions =
                 winningPositionsPaths.stream().map(path -> {
-                    Set<Long> positions = serializationService.readPositionsFromFile(path);
+                    Set<Long> positions = serializationService.readPositionsFromTxtFile(path);
                     return positions.size();
                 }).collect(Collectors.toList());
         // only test the number of winning positions (assume that if the numbers are correct than the position itself are correct as well)
