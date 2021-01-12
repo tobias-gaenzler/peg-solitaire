@@ -35,7 +35,6 @@ public class AppStartupRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        logger.info("Application started with option names : {}", args.getOptionNames());
         String boardName = EnglishBoard.NAME;
         String strategyName = "depthFirst";
         if(args.containsOption("board")) {
