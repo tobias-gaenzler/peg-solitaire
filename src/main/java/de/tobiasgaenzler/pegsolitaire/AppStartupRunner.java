@@ -4,8 +4,8 @@ import de.tobiasgaenzler.pegsolitaire.board.Board;
 import de.tobiasgaenzler.pegsolitaire.board.BoardFactory;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
 import de.tobiasgaenzler.pegsolitaire.solver.Solution;
-import de.tobiasgaenzler.pegsolitaire.solver.strategy.DepthFirstStrategy;
-import de.tobiasgaenzler.pegsolitaire.solver.strategy.ParallelStreamStrategy;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.SolutionStrategy;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.WinningPositionsStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,16 @@ import java.nio.file.Path;
 import java.util.List;
 
 @Component
-@Profile("!test")
+@Profile("!test") // disabled for tests
 public class AppStartupRunner implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(AppStartupRunner.class);
 
-	private final DepthFirstStrategy depthFirstStrategy;
-	private final ParallelStreamStrategy parallelStreamStrategy;
+	private final SolutionStrategy depthFirstStrategy;
+	private final WinningPositionsStrategy parallelStreamStrategy;
 	private final BoardFactory boardFactory;
 
     @Autowired
-    public AppStartupRunner(DepthFirstStrategy depthFirstStrategy, ParallelStreamStrategy parallelStreamStrategy, BoardFactory boardFactory) {
+    public AppStartupRunner(SolutionStrategy depthFirstStrategy, WinningPositionsStrategy parallelStreamStrategy, BoardFactory boardFactory) {
         this.depthFirstStrategy = depthFirstStrategy;
         this.parallelStreamStrategy = parallelStreamStrategy;
         this.boardFactory = boardFactory;
