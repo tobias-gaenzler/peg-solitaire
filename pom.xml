@@ -49,6 +49,10 @@
                 <configuration>
                     <image>
                         <name>docker.io/tobiasgaenzler/${project.artifactId}:v1.0</name>
+                        <env>
+                            <BP_JVM_VERSION>15</BP_JVM_VERSION>
+                            <JAVA_TOOL_OPTIONS>-Xmx128G</JAVA_TOOL_OPTIONS> <!-- does not seem to work -->
+                        </env>
                     </image>
                 </configuration>
             </plugin>
@@ -57,7 +61,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <argLine>-Xmx6G</argLine>
+                    <argLine>-Xmx6G</argLine> <!-- github actions supports 7G memory by default.
+                    We need at least 4G (test for english board). More memory -> faster test. -->
                 </configuration>
             </plugin>
         </plugins>
