@@ -19,8 +19,10 @@ However choosing "parallel" strategy might lead to high memory usage > 50 GB
 Available options:
 * --board: "English Board", "Quadratic Board Size Four", "Quadratic Board Size Five", "Quadratic Board Size Six"
 * --strategy: 
+  
   "depthFirst" search for one solution on the board starting with the start position provided by the board
   using a depth first search algorithm. The solution is printed to console.
+
   "parallel" finds all *winning* positions for the board (positions from which the final position can be reached).
   Winning positions are stored in files.
 
