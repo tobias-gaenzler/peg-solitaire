@@ -46,13 +46,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>docker.io/tobiasgaenzler/${project.artifactId}:v1.0</name>
+                    </image>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <argLine>-Xmx4G</argLine>
+                    <argLine>-Xmx6G</argLine>
                 </configuration>
             </plugin>
         </plugins>
