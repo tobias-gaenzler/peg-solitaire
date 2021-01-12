@@ -11,15 +11,18 @@ Supported boards:
 * quadratic board (size 4, 5 or 6)
 
 ## Usage
-Start the application: this will find one solution for the english board and print it to console.
+Start the application: this will find one solution using depth first search for the english board and print it to console.
 
-Run the following tests to find a single solution for one of the boards:
-* *DepthFirstStrategyTest*
+You can choose board and strategy via command line e.g. --board="Quadratic Board Size Four" --strategy="parallel"
+However choosing "parallel" strategy might lead to high memory usage > 50 GB
 
-Run the following test to find all *winning* positions for boards (positions from which the final position can be reached):
-* *ParallelStreamStrategyTest*: compute all *winning* positions for quadratic boards (size 4 and 5) 
-  and english board. The quadratic board size six is excluded because it needs a lot of memory and takes quite a while 
-  (until now I have not been able to complete it with 16 GB memory).
+Available options:
+* --board: "English Board", "Quadratic Board Size Four", "Quadratic Board Size Five", "Quadratic Board Size Six"
+* --strategy: 
+  "depthFirst" search for one solution on the board starting with the start position provided by the board
+  using a depth first search algorithm. The solution is printed to console.
+  "parallel" finds all *winning* positions for the board (positions from which the final position can be reached).
+  Winning positions are stored in files.
 
 ## Algorithm
 A java *long* (64 bits) is used to represent positions on a board (bit set means a peg is located at this position).
