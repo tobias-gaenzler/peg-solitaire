@@ -146,7 +146,7 @@ public class ParallelStreamStrategy implements WinningPositionsStrategy {
                 }
             });
             removeSymmetricPositions(board, winningPositions);
-            logger.info("{}: {} winning positions in {} ms (all: {})", pegs, (Duration.between(start, Instant.now()).toMillis()), winningPositions.size(), positions.size());
+            logger.info("{}: {} winning positions in {} ms (all: {})", pegs, winningPositions.size(), (Duration.between(start, Instant.now()).toMillis()), positions.size());
             serializationService.storePositionsInBinaryFile(board, winningPositions, numberOfPegs - pegs + 1);
         }
     }
