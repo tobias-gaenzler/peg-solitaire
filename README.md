@@ -19,7 +19,7 @@ Supported boards:
 * Alternative: run *mvn clean install* and execute it the created jar via *java -jar target/pegsolitaire-0.0.1-SNAPSHOT.jar*
 
 You can choose board and strategy via command line e.g. --board="Quadratic Board Size Four" --strategy="parallel"
-However choosing "parallel" strategy might lead to high memory usage > 50 GB
+However choosing "parallel" strategy might lead to high memory usage > 10 GB (approx. 450.000.000 Long)
 
 Available options:
 * --board: "English Board", "Quadratic Board Size Four", "Quadratic Board Size Five", "Quadratic Board Size Six"
