@@ -4,7 +4,10 @@ import de.tobiasgaenzler.pegsolitaire.board.Board;
 import de.tobiasgaenzler.pegsolitaire.board.BoardFactory;
 import de.tobiasgaenzler.pegsolitaire.board.EnglishBoard;
 import de.tobiasgaenzler.pegsolitaire.solver.Solution;
-import de.tobiasgaenzler.pegsolitaire.solver.strategy.*;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.SingleSolutionStrategy;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.SolutionStrategy;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.StrategyFactory;
+import de.tobiasgaenzler.pegsolitaire.solver.strategy.WinningPositionsStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +26,12 @@ public class AppStartupRunner implements ApplicationRunner {
     public static final String SINGLE_SOLUTION_STRATEGY = "singleSolution";
 
     private final BoardFactory boardFactory;
-    private final StrategyFactoryProvider strategyFactoryProvider;
+    private final StrategyFactory strategyFactory;
 
     @Autowired
-    public AppStartupRunner(BoardFactory boardFactory, StrategyFactoryProvider strategyFactoryProvider) {
+    public AppStartupRunner(BoardFactory boardFactory, StrategyFactory strategyFactory) {
         this.boardFactory = boardFactory;
-        this.strategyFactoryProvider = strategyFactoryProvider;
+        this.strategyFactory = strategyFactory;
     }
 
     @Override
@@ -45,16 +48,12 @@ public class AppStartupRunner implements ApplicationRunner {
         logger.info("Use {}", boardName);
         logger.info("Use {} strategy", strategyName);
         Board board = boardFactory.getBoard(boardName);
-
-        StrategyFactory<?> singleSolutionStrategyFactory = strategyFactoryProvider.getFactory(SingleSolutionStrategyFactory.NAME);
-        StrategyFactory<?> winningPositionsStrategyFactory = strategyFactoryProvider.getFactory(WinningPositionsStrategyFactory.NAME);
-        if (singleSolutionStrategyFactory.getStrategyNames().contains(strategyName)) {
-            SingleSolutionStrategy strategy = (SingleSolutionStrategy) singleSolutionStrategyFactory.create(strategyName);
-            Solution solution = strategy.solve(board, board.getStartPosition());
+        SolutionStrategy<?> strategy = strategyFactory.create(strategyName);
+        if (strategy instanceof SingleSolutionStrategy) {
+            Solution solution = ((SingleSolutionStrategy) strategy).solve(board, board.getStartPosition());
             logger.info(solution.toString(board));
-        } else if (winningPositionsStrategyFactory.getStrategyNames().contains(strategyName)) {
-            WinningPositionsStrategy strategy = (WinningPositionsStrategy) winningPositionsStrategyFactory.create(strategyName);
-            List<Path> filePaths = strategy.solve(board, board.getStartPosition());
+        } else if (strategy instanceof WinningPositionsStrategy) {
+            List<Path> filePaths = ((WinningPositionsStrategy) strategy).solve(board, board.getStartPosition());
             logger.info("Wrote solution to the following files: {}", filePaths);
         } else {
             logger.info("Unknown strategy {}. Exiting.", strategyName);

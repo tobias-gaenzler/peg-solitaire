@@ -1,23 +1,35 @@
 package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Factory used to create either *WinningPositionsStrategies* or *SingleSolutionStrategies*.
- *
- * @param <T> type of strategy (*WinningPositionsStrategy* or *SingleSolutionStrategy*)
  */
-public interface StrategyFactory<T> {
+@Service
+public class StrategyFactory {
+    private final Map<String, SingleSolutionStrategy> singleSolutionStrategyMap;
+    private final Map<String, WinningPositionsStrategy> winningPositionsStrategyMap;
 
-    T create(String strategyName);
+    @Autowired
+    private StrategyFactory(List<SingleSolutionStrategy> singleSolutionStrategies, List<WinningPositionsStrategy> winningPositionsStrategy) {
+        singleSolutionStrategyMap = singleSolutionStrategies.stream().collect(Collectors.toMap(SingleSolutionStrategy::getName, Function.identity()));
+        winningPositionsStrategyMap = winningPositionsStrategy.stream().collect(Collectors.toMap(WinningPositionsStrategy::getName, Function.identity()));
+    }
 
-    /**
-     * Needed for retrieving a factory by name.
-     */
-    String getName();
-
-    /**
-     * Needed to check if a factory can create a strategy.
-     */
-    Set<String> getStrategyNames();
+    public SolutionStrategy<?> create(String name) {
+        if (singleSolutionStrategyMap.containsKey(name)) {
+            return singleSolutionStrategyMap.get(name);
+        } else if (winningPositionsStrategyMap.containsKey(name)) {
+            return winningPositionsStrategyMap.get(name);
+        } else {
+            throw new RuntimeException("Unknown strategy name: " + name + ". Available strategies " +
+                    String.join(",", singleSolutionStrategyMap.keySet()) + "," + String.join(",", winningPositionsStrategyMap.keySet()));
+        }
+    }
 }

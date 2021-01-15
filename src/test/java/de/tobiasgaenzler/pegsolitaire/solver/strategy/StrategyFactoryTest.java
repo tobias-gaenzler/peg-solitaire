@@ -9,23 +9,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test") // prevent that a solution is calculated in tests via the AppStartupRunner
-public class WinningPositionsStrategyFactoryTest {
+public class StrategyFactoryTest {
 
-    private final WinningPositionsStrategyFactory factory;
+    private final StrategyFactory factory;
 
     @Autowired
-    public WinningPositionsStrategyFactoryTest(WinningPositionsStrategyFactory factory) {
+    public StrategyFactoryTest(StrategyFactory factory) {
         this.factory = factory;
     }
 
     @Test
     public void testSerializingStrategyCreation() {
-        WinningPositionsStrategy strategy = factory.create(SerializingStrategy.NAME);
+        WinningPositionsStrategy strategy = (WinningPositionsStrategy) factory.create(SerializingStrategy.NAME);
         assertThat(strategy).isInstanceOf(SerializingStrategy.class);
     }
+
     @Test
     public void testHighMemoryUsageStrategyCreation() {
-        WinningPositionsStrategy strategy = factory.create(HighMemoryUsageStrategy.NAME);
+        WinningPositionsStrategy strategy = (WinningPositionsStrategy) factory.create(HighMemoryUsageStrategy.NAME);
         assertThat(strategy).isInstanceOf(HighMemoryUsageStrategy.class);
     }
+
+    @Test
+    public void testDepthFirstStrategyCreation() {
+        SingleSolutionStrategy strategy = (SingleSolutionStrategy) factory.create(DepthFirstStrategy.NAME);
+        assertThat(strategy).isInstanceOf(DepthFirstStrategy.class);
+    }
+
 }
