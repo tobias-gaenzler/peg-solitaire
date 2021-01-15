@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ParallelStreamStrategyTest {
+public class LowMemoryStrategyTest {
 
     @Test
     public void testParallelStreamStrategyForQuadraticBoardSizeFour() {
         Board board = new QuadraticBoardSizeFour(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
-        WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
+        WinningPositionsStrategy strategy = new LowMemoryStrategy(serializationService);
         long startPosition = 0B1110_1011_1111_1111L;
         List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
         List<Integer> numberOfWinningPositions =
@@ -35,7 +35,7 @@ public class ParallelStreamStrategyTest {
     public void testParallelStreamStrategyForQuadraticBoardSizeFive() {
         Board board = new QuadraticBoardSizeFive(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
-        WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
+        WinningPositionsStrategy strategy = new LowMemoryStrategy(serializationService);
         long startPosition = 0B11111_11111_11111_11011_11111L;
         List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
         List<Integer> numberOfWinningPositions =
@@ -52,7 +52,7 @@ public class ParallelStreamStrategyTest {
     public void testParallelStreamStrategyForEnglishBoard() {
         Board board = new EnglishBoard(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
-        WinningPositionsStrategy strategy = new ParallelStreamStrategy(serializationService);
+        WinningPositionsStrategy strategy = new LowMemoryStrategy(serializationService);
         Long startPosition = board.getStartPosition();
         List<Path> winningPositionsPaths = strategy.solve(board, startPosition);
         List<Integer> numberOfWinningPositions =

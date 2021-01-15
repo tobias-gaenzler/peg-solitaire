@@ -16,19 +16,20 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * This strategy will assemble all winning positions (modulo symmetry).
+ * This strategy will assemble all winning positions (modulo symmetry). Sets of positions are written to file and
+ * read from file when needed again which reduces the memory footprint.
  * A winning position is a position from which the end position can be reached i.e. which is part of a solution.
  */
 @Component
-public class ParallelStreamStrategy implements WinningPositionsStrategy {
+public class LowMemoryStrategy implements WinningPositionsStrategy {
 
-    private static final Logger logger = LoggerFactory.getLogger(ParallelStreamStrategy.class);
+    private static final Logger logger = LoggerFactory.getLogger(LowMemoryStrategy.class);
     private final List<Path> binaryFilePaths = new ArrayList<>();
     private final List<Path> txtFilePaths = new ArrayList<>();
     private final SerializationService serializationService;
 
     @Autowired
-    public ParallelStreamStrategy(SerializationService serializationService) {
+    public LowMemoryStrategy(SerializationService serializationService) {
         this.serializationService = serializationService;
     }
 

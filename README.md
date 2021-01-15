@@ -11,24 +11,25 @@ Supported boards:
 * quadratic board (size 4, 5 or 6)
 
 ## Usage
-* run via *Docker* (this will find one solution using depth first search for the english board and print it to console)
+* run via *Docker* (this will find one solution using single solution strategy for the english board and print it to console). 
+  Docker container has been created via *build-image* spring boot maven plugin.
     ```
     docker pull tobiasgaenzler/pegsolitaire:v1.0
     docker run -i tobiasgaenzler/pegsolitaire:v1.0 
     ```
-* Alternative: run *mvn clean install* and execute it the created jar via *java -jar target/pegsolitaire-0.0.1-SNAPSHOT.jar*
+* Alternative: run *mvn -DskipTests clean install* and execute the created jar via *java -jar target/pegsolitaire-0.0.1-SNAPSHOT.jar*
 
-You can choose board and strategy via command line e.g. --board="Quadratic Board Size Four" --strategy="parallel"
-However choosing "parallel" strategy might lead to high memory usage > 10 GB (approx. 450.000.000 Long)
+You can choose board and strategy via command line e.g. --board="Quadratic Board Size Four" --strategy="winningPositions"
+However choosing "winningPositions" strategy might lead to high memory usage > 10 GB (approx. 450.000.000 Long).
+For the calculation of winning positions for the *Quadratic Board Size Six" I used a memory optimized AWS EC2 instance
+since my computer does not have enough memory.
 
 Available options:
 * --board: "English Board", "Quadratic Board Size Four", "Quadratic Board Size Five", "Quadratic Board Size Six"
 * --strategy: 
-  
-  "depthFirst" search for one solution on the board starting with the start position provided by the board
+  * "singleSolution" search for one solution on the board starting with the start position provided by the board
   using a depth first search algorithm. The solution is printed to console.
-
-  "parallel" finds all *winning* positions for the board (positions from which the final position can be reached).
+  * "winningPositions" finds all *winning* positions for the board (positions from which the final position can be reached).
   Winning positions are stored in files.
 
 ## Algorithm
