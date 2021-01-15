@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SerializingStrategy implements WinningPositionsStrategy {
 
     private static final Logger logger = LoggerFactory.getLogger(SerializingStrategy.class);
+    public static final String NAME = "winningPositions";
     private final List<Path> binaryFilePaths = new ArrayList<>();
     private final List<Path> txtFilePaths = new ArrayList<>();
     private final SerializationService serializationService;
@@ -46,7 +47,7 @@ public class SerializingStrategy implements WinningPositionsStrategy {
 
     @Override
     public String getName() {
-        return "winningPositions";
+        return NAME;
     }
 
     /**

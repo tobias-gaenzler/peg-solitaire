@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HighMemoryUsageStrategy implements WinningPositionsStrategy {
 
     private static final Logger logger = LoggerFactory.getLogger(HighMemoryUsageStrategy.class);
+    public static final String NAME = "winningPositionsHighMem";
     private final List<Path> txtFilePaths = new ArrayList<>();
     private final SerializationService serializationService;
     private final List<Set<Long>> reachablePositions = Collections.synchronizedList(new ArrayList<>());
@@ -55,7 +56,7 @@ public class HighMemoryUsageStrategy implements WinningPositionsStrategy {
 
     @Override
     public String getName() {
-        return "winningPositionsHighMem";
+        return NAME;
     }
 
 

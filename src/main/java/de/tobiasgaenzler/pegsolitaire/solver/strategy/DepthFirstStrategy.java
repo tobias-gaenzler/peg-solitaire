@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Component
 public class DepthFirstStrategy implements SingleSolutionStrategy {
 
+    public static final String NAME = "singleSolution";
+
     @Override
     public Solution solve(Board board, Long startPosition) {
 
@@ -26,7 +28,7 @@ public class DepthFirstStrategy implements SingleSolutionStrategy {
 
     @Override
     public String getName() {
-        return "singleSolution";
+        return NAME;
     }
 
     /**
