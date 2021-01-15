@@ -44,6 +44,11 @@ public class LowMemoryStrategy implements WinningPositionsStrategy {
         return txtFilePaths;
     }
 
+    @Override
+    public String getName() {
+        return "winningPositions";
+    }
+
     /**
      * Assemble all reachable positions starting with startPosition.
      * Use the stream().parallel() for concurrency.

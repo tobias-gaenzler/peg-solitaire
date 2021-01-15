@@ -17,7 +17,9 @@ public interface WinningPositionsStrategy {
      *
      * @param board         the board for the game
      * @param startPosition find winning positions for this start position
-     * @return the paths to the files with the winning positions (first is start position, grouped by number of pegs on the board)
+     * @return the paths to the files with the winning positions (first contains start position, grouped by number of pegs on the board)
      */
     List<Path> solve(Board board, Long startPosition);
+
+    String getName();
 }

@@ -6,7 +6,7 @@ import de.tobiasgaenzler.pegsolitaire.solver.Solution;
 /**
  * Interface for strategies which can be used to find a single solution to the solitaire game.
  */
-public interface SolutionStrategy {
+public interface SingleSolutionStrategy {
 
     /**
      * Find a single solution for a given start position on a board.
@@ -16,4 +16,6 @@ public interface SolutionStrategy {
      * @return a solution if found, null if not
      */
     Solution solve(Board board, Long startPosition);
+
+    String getName();
 }

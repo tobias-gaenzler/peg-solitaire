@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Symmetry is not taken into account. The first solution found is returned.
  */
 @Component
-public class DepthFirstStrategy implements SolutionStrategy {
+public class DepthFirstStrategy implements SingleSolutionStrategy {
 
     @Override
     public Solution solve(Board board, Long startPosition) {
@@ -22,6 +22,11 @@ public class DepthFirstStrategy implements SolutionStrategy {
         // solve the game via recursion
         this.solveRecursive(startPosition, board, solution, solved);
         return solution;
+    }
+
+    @Override
+    public String getName() {
+        return "singleSolution";
     }
 
     /**
