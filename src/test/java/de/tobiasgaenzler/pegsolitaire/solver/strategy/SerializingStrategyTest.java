@@ -3,7 +3,6 @@ package de.tobiasgaenzler.pegsolitaire.solver.strategy;
 import de.tobiasgaenzler.pegsolitaire.board.*;
 import de.tobiasgaenzler.pegsolitaire.solver.SerializationService;
 import de.tobiasgaenzler.pegsolitaire.solver.strategy.bits.BitManipulator;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
