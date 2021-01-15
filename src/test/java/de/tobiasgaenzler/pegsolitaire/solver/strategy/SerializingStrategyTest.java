@@ -50,7 +50,6 @@ public class SerializingStrategyTest {
 
     // this test takes a while (approximately 2 minutes on my computer).
     @Test
-    @Disabled
     public void testParallelStreamStrategyForEnglishBoard() {
         Board board = new EnglishBoard(new BitManipulator(), new PositionRenderer());
         SerializationService serializationService = new SerializationService();
