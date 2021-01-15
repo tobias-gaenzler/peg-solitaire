@@ -25,7 +25,7 @@ public class BitManipulator {
             throw new IllegalArgumentException("Out of range: can not swap bits in a 64 bit long for 'startPositionFirstBlock="
                     + startPositionFirstBlock + ", startPositionSecondBlock=" + startPositionSecondBlock + ", numberOfBits=" + numberOfBits);
         }
-        if(startPositionFirstBlock + numberOfBits > startPositionSecondBlock) {
+        if (startPositionFirstBlock + numberOfBits > startPositionSecondBlock) {
             throw new IllegalArgumentException("Blocks overlap: can not swap bits in a 64 bit long for 'startPositionFirstBlock="
                     + startPositionFirstBlock + ", startPositionSecondBlock=" + startPositionSecondBlock + ", numberOfBits=" + numberOfBits);
         }

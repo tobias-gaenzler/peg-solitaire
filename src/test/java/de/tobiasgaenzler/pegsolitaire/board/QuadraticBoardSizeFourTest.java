@@ -35,12 +35,12 @@ public class QuadraticBoardSizeFourTest {
         board.getPositionRenderer().usePrettyLayout();
         String positionString =
                 """
-                
-                ● ● ● •\s
-                ● • ● ●\s
-                ● ● ● ●\s
-                ● ● ● ●\s
-                """;
+                                        
+                        ● ● ● •\s
+                        ● • ● ●\s
+                        ● ● ● ●\s
+                        ● ● ● ●\s
+                        """;
         Long startPosition = board.getStartPosition();
         assertThat(board.renderPosition(startPosition)).isEqualTo(positionString);
     }

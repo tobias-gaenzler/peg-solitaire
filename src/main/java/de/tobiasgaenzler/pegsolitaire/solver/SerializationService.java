@@ -29,7 +29,6 @@ public class SerializationService {
      * @param numberOfRemainingPieces only used for filename
      * @return the file path of the file containing the positions
      */
-
     public Path storePositionsInBinaryFile(Board board, Set<Long> positions, int numberOfRemainingPieces) {
         Path positionsFilePath = getBinaryPositionFilePath(board, numberOfRemainingPieces);
         logger.debug("Storing positions for {} pegs in file '{}'", numberOfRemainingPieces, positionsFilePath);
@@ -77,7 +76,33 @@ public class SerializationService {
     }
 
     /**
-     * Read binary position file and write the positions (long) as string to txt file.
+     * Write set of positions to file. Txt file format (',' as separator) is used for better readability.
+     *
+     * @param board                   only used for filename
+     * @param positions               set of positions to write to file as txt data
+     * @param numberOfRemainingPieces only used for filename
+     * @return the file path of the file containing the positions
+     */
+    public Path storePositionsInTxtFile(Board board, Set<Long> positions, int numberOfRemainingPieces) {
+        Instant start = Instant.now();
+
+        Path txtFilePath = getTxtPositionFilePath(board, numberOfRemainingPieces);
+        try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(txtFilePath.toString()))
+        ) {
+            for (Long position : positions) {
+                bufferedOutputStream.write((position + POSITION_SEPARATOR).getBytes());
+            }
+        } catch (IOException e) {
+            logger.error("Could not write to file {}:  {}", txtFilePath, e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+        logger.debug("Storing positions took {} ms", Duration.between(start, Instant.now()).toMillis());
+        return txtFilePath;
+    }
+
+    /**
+     * Read binary position file and write the positions (long) as string to txt file (',' as separator).
      * Use streams to avoid that all source file content is loaded into memory.
      * Source file is deleted after completion.
      * Useful for further processing of calculated results e.g. in an app.
@@ -134,10 +159,13 @@ public class SerializationService {
         return Paths.get(board.getName() + "_" + numberOfRemainingPieces + "_positions.bin");
     }
 
+    private Path getTxtPositionFilePath(Board board, int numberOfRemainingPieces) {
+        return Paths.get(board.getName() + "_" + numberOfRemainingPieces + "_positions.txt");
+    }
+
     private Path convertToTxtPositionFilePath(Path binaryFilePath) {
         // replace ".bin" with ".txt"
         String txtFilePath = binaryFilePath.toString().replace(".bin", ".txt");
         return Path.of(txtFilePath);
     }
-
 }

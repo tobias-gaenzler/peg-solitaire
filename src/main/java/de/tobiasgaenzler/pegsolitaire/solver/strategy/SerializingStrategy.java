@@ -21,15 +21,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * A winning position is a position from which the end position can be reached i.e. which is part of a solution.
  */
 @Component
-public class LowMemoryStrategy implements WinningPositionsStrategy {
+public class SerializingStrategy implements WinningPositionsStrategy {
 
-    private static final Logger logger = LoggerFactory.getLogger(LowMemoryStrategy.class);
+    private static final Logger logger = LoggerFactory.getLogger(SerializingStrategy.class);
     private final List<Path> binaryFilePaths = new ArrayList<>();
     private final List<Path> txtFilePaths = new ArrayList<>();
     private final SerializationService serializationService;
 
     @Autowired
-    public LowMemoryStrategy(SerializationService serializationService) {
+    public SerializingStrategy(SerializationService serializationService) {
         this.serializationService = serializationService;
     }
 

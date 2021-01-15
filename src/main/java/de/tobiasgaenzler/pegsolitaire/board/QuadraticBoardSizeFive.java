@@ -126,7 +126,8 @@ public class QuadraticBoardSizeFive implements Board {
         temp = bitManipulator.swap(3, 15, 1, temp);
         temp = bitManipulator.swap(7, 11, 1, temp);
         temp = bitManipulator.swap(2, 10, 1, temp);
-        return bitManipulator.swap(1, 5, 1, temp);    }
+        return bitManipulator.swap(1, 5, 1, temp);
+    }
 
     private long mirrorVertically(long position) {
         BitManipulator bitManipulator = boardDataHolder.getBitManipulator();

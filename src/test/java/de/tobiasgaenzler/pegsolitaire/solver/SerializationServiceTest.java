@@ -19,7 +19,7 @@ class SerializationServiceTest {
     private static final int COUNT = 1000;
 
     @Test
-    public void testWritingAndReadingPositions() {
+    public void testWritingAndReadingBinaryPositions() {
         Board board = spy(Board.class);
         when(board.getName()).thenReturn("test-board");
 
@@ -30,6 +30,22 @@ class SerializationServiceTest {
         Path path = serializationService.storePositionsInBinaryFile(board, numbers, 1);
 
         Set<Long> numbersFromFile = serializationService.readPositionsFromBinaryFile(path);
+
+        assertThat(numbersFromFile).isEqualTo(numbers);
+    }
+
+    @Test
+    public void testWritingAndReadingTxtPositions() {
+        Board board = spy(Board.class);
+        when(board.getName()).thenReturn("test-board");
+
+        logger.debug("Create set of {} positions", COUNT);
+        Set<Long> numbers = IntStream.range(0, COUNT).mapToLong(i -> (long) i).boxed().collect(Collectors.toSet());
+        SerializationService serializationService = new SerializationService();
+
+        Path path = serializationService.storePositionsInTxtFile(board, numbers, 1);
+
+        Set<Long> numbersFromFile = serializationService.readPositionsFromTxtFile(path);
 
         assertThat(numbersFromFile).isEqualTo(numbers);
     }

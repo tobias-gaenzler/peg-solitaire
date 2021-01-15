@@ -46,14 +46,14 @@ public class AppStartupRunner implements ApplicationRunner {
         logger.info("Use {} strategy", strategyName);
         Board board = boardFactory.getBoard(boardName);
 
-        StrategyFactory<SingleSolutionStrategy> singleSolutionStrategyFactory = strategyFactoryProvider.getFactory(SingleSolutionStrategyFactory.NAME);
-        StrategyFactory<WinningPositionsStrategy> winningPositionsStrategyFactory = strategyFactoryProvider.getFactory(WinningPositionsStrategyFactory.NAME);
+        StrategyFactory<?> singleSolutionStrategyFactory = strategyFactoryProvider.getFactory(SingleSolutionStrategyFactory.NAME);
+        StrategyFactory<?> winningPositionsStrategyFactory = strategyFactoryProvider.getFactory(WinningPositionsStrategyFactory.NAME);
         if (singleSolutionStrategyFactory.getStrategyNames().contains(strategyName)) {
-            SingleSolutionStrategy strategy = singleSolutionStrategyFactory.create(strategyName);
+            SingleSolutionStrategy strategy = (SingleSolutionStrategy) singleSolutionStrategyFactory.create(strategyName);
             Solution solution = strategy.solve(board, board.getStartPosition());
             logger.info(solution.toString(board));
         } else if (winningPositionsStrategyFactory.getStrategyNames().contains(strategyName)) {
-            WinningPositionsStrategy strategy = winningPositionsStrategyFactory.create(strategyName);
+            WinningPositionsStrategy strategy = (WinningPositionsStrategy) winningPositionsStrategyFactory.create(strategyName);
             List<Path> filePaths = strategy.solve(board, board.getStartPosition());
             logger.info("Wrote solution to the following files: {}", filePaths);
         } else {

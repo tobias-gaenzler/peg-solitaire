@@ -61,7 +61,7 @@ public class EnglishBoard implements Board {
 
     /**
      * The start position with a hole in the center:
-     *<pre>
+     * <pre>
      *      ● ● ●
      *      ● ● ●
      *  ● ● ● ● ● ● ●
@@ -69,7 +69,7 @@ public class EnglishBoard implements Board {
      *  ● ● ● ● ● ● ●
      *      ● ● ●
      *      ● ● ●
-     *</pre>
+     * </pre>
      */
     @Override
     public Long getStartPosition() {
@@ -78,7 +78,7 @@ public class EnglishBoard implements Board {
 
     /**
      * The end position with a peg in the center:
-     *<pre>
+     * <pre>
      *      • • •
      *      • • •
      *  • • • • • • •
