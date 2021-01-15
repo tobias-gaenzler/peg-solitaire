@@ -37,8 +37,8 @@ Available options:
     * "winningPositions" finds all *winning* positions for the board (positions from which the final position can be
       reached). Sets of positions are written to file during computation and read again when needed. 
       The resulting winning positions are stored in files.
-    * "winningPositionsHighMem" finds all *winning* positions for the board (positions from which the final position can be
-      reached). All sets of positions are kept in memory during computation which leads to high memory consumption.
+    * "winningPositionsHighMem" finds all *winning* positions for the board usually a bit faster than  "winningPositions"
+      but using more memory. All sets of positions are kept in memory during computation.
       The resulting winning positions are stored in files.
 
 
